@@ -1,12 +1,35 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import ParticleBackground from '@/components/portfolio/ParticleBackground';
+import Navigation from '@/components/portfolio/Navigation';
+import Hero from '@/components/portfolio/Hero';
+import About from '@/components/portfolio/About';
+import Projects from '@/components/portfolio/Projects';
+import Skills from '@/components/portfolio/Skills';
+import Experience from '@/components/portfolio/Experience';
+import Contact from '@/components/portfolio/Contact';
 
 const Index = () => {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="relative min-h-screen bg-background text-foreground overflow-x-hidden">
+      <ParticleBackground />
+      <Navigation />
+      
+      <main>
+        <Hero />
+        <About />
+        <Projects />
+        <Skills />
+        <Experience />
+        <Contact />
+      </main>
+
+      {/* Footer */}
+      <footer className="py-8 border-t border-border">
+        <div className="container-width text-center">
+          <p className="text-sm text-muted-foreground">
+            © {new Date().getFullYear()} Abdirashiid Sammantar. Built with React & anime.js
+          </p>
+        </div>
+      </footer>
     </div>
   );
 };
