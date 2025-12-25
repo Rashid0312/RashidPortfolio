@@ -1,79 +1,83 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { animate, stagger } from 'animejs';
-import { Sparkles } from 'lucide-react';
 
 interface Skill {
   name: string;
   icon: string;
+  category: string;
 }
 
-interface SkillCategory {
-  title: string;
-  skills: Skill[];
-}
-
-const skillCategories: SkillCategory[] = [
-  {
-    title: 'Frontend',
-    skills: [
-      { name: 'React', icon: 'https://skillicons.dev/icons?i=react' },
-      { name: 'TypeScript', icon: 'https://skillicons.dev/icons?i=ts' },
-      { name: 'JavaScript', icon: 'https://skillicons.dev/icons?i=js' },
-      { name: 'HTML', icon: 'https://skillicons.dev/icons?i=html' },
-      { name: 'CSS', icon: 'https://skillicons.dev/icons?i=css' },
-      { name: 'Tailwind', icon: 'https://skillicons.dev/icons?i=tailwind' },
-    ],
-  },
-  {
-    title: 'Backend',
-    skills: [
-      { name: 'Python', icon: 'https://skillicons.dev/icons?i=python' },
-      { name: 'Flask', icon: 'https://skillicons.dev/icons?i=flask' },
-      { name: 'Java', icon: 'https://skillicons.dev/icons?i=java' },
-      { name: 'PostgreSQL', icon: 'https://skillicons.dev/icons?i=postgres' },
-      { name: 'MySQL', icon: 'https://skillicons.dev/icons?i=mysql' },
-    ],
-  },
-  {
-    title: 'DevOps & Cloud',
-    skills: [
-      { name: 'Docker', icon: 'https://skillicons.dev/icons?i=docker' },
-      { name: 'Kubernetes', icon: 'https://skillicons.dev/icons?i=kubernetes' },
-      { name: 'AWS', icon: 'https://skillicons.dev/icons?i=aws' },
-      { name: 'Linux', icon: 'https://skillicons.dev/icons?i=linux' },
-      { name: 'Nginx', icon: 'https://skillicons.dev/icons?i=nginx' },
-      { name: 'Git', icon: 'https://skillicons.dev/icons?i=git' },
-      { name: 'GitHub', icon: 'https://skillicons.dev/icons?i=github' },
-    ],
-  },
-  {
-    title: 'AI & Data',
-    skills: [
-      { name: 'PyTorch', icon: 'https://skillicons.dev/icons?i=pytorch' },
-      { name: 'TensorFlow', icon: 'https://skillicons.dev/icons?i=tensorflow' },
-    ],
-  },
+const skills: Skill[] = [
+  // Frontend
+  { name: 'React', icon: 'https://skillicons.dev/icons?i=react', category: 'Frontend' },
+  { name: 'TypeScript', icon: 'https://skillicons.dev/icons?i=ts', category: 'Frontend' },
+  { name: 'JavaScript', icon: 'https://skillicons.dev/icons?i=js', category: 'Frontend' },
+  { name: 'Tailwind', icon: 'https://skillicons.dev/icons?i=tailwind', category: 'Frontend' },
+  { name: 'HTML', icon: 'https://skillicons.dev/icons?i=html', category: 'Frontend' },
+  { name: 'CSS', icon: 'https://skillicons.dev/icons?i=css', category: 'Frontend' },
+  // Backend
+  { name: 'Python', icon: 'https://skillicons.dev/icons?i=python', category: 'Backend' },
+  { name: 'Flask', icon: 'https://skillicons.dev/icons?i=flask', category: 'Backend' },
+  { name: 'Java', icon: 'https://skillicons.dev/icons?i=java', category: 'Backend' },
+  { name: 'PostgreSQL', icon: 'https://skillicons.dev/icons?i=postgres', category: 'Backend' },
+  { name: 'MySQL', icon: 'https://skillicons.dev/icons?i=mysql', category: 'Backend' },
+  // DevOps
+  { name: 'Docker', icon: 'https://skillicons.dev/icons?i=docker', category: 'DevOps' },
+  { name: 'Kubernetes', icon: 'https://skillicons.dev/icons?i=kubernetes', category: 'DevOps' },
+  { name: 'AWS', icon: 'https://skillicons.dev/icons?i=aws', category: 'DevOps' },
+  { name: 'Linux', icon: 'https://skillicons.dev/icons?i=linux', category: 'DevOps' },
+  { name: 'Git', icon: 'https://skillicons.dev/icons?i=git', category: 'DevOps' },
+  { name: 'GitHub', icon: 'https://skillicons.dev/icons?i=github', category: 'DevOps' },
+  { name: 'Nginx', icon: 'https://skillicons.dev/icons?i=nginx', category: 'DevOps' },
+  // AI/ML
+  { name: 'PyTorch', icon: 'https://skillicons.dev/icons?i=pytorch', category: 'AI & ML' },
+  { name: 'TensorFlow', icon: 'https://skillicons.dev/icons?i=tensorflow', category: 'AI & ML' },
 ];
 
-// All skills flattened for the marquee effect
-const allSkills = skillCategories.flatMap(cat => cat.skills);
+const categories = ['All', 'Frontend', 'Backend', 'DevOps', 'AI & ML'];
+
+const additionalSkills = [
+  'scikit-learn', 'XGBoost', 'pandas', 'NumPy', 'OpenTelemetry',
+  'Prometheus', 'Grafana', 'Jenkins', 'Ansible', 'Azure DevOps', '.NET', 'C#'
+];
 
 const Skills = () => {
   const sectionRef = useRef<HTMLElement>(null);
-  const gridRef = useRef<HTMLDivElement>(null);
+  const [activeCategory, setActiveCategory] = useState('All');
+  const [hoveredSkill, setHoveredSkill] = useState<string | null>(null);
+
+  const filteredSkills = activeCategory === 'All'
+    ? skills
+    : skills.filter(s => s.category === activeCategory);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
+            animate('.skills-title', {
+              translateY: [60, 0],
+              opacity: [0, 1],
+              duration: 1000,
+              easing: 'easeOutExpo',
+            });
+
+            animate('.skill-filter', {
+              translateY: [30, 0],
+              opacity: [0, 1],
+              duration: 600,
+              delay: stagger(50, { start: 200 }),
+              easing: 'easeOutExpo',
+            });
+
             animate('.skill-item', {
               scale: [0, 1],
               opacity: [0, 1],
-              duration: 600,
-              delay: stagger(30),
-              ease: 'outBack',
+              duration: 500,
+              delay: stagger(30, { start: 400 }),
+              easing: 'easeOutBack',
             });
+
             observer.disconnect();
           }
         });
@@ -89,72 +93,87 @@ const Skills = () => {
   }, []);
 
   return (
-    <section 
-      id="skills" 
-      ref={sectionRef}
-      className="section-padding relative overflow-hidden"
-    >
-      {/* Background decoration */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-1/2 bg-gradient-to-t from-primary/5 to-transparent" />
-      
+    <section id="skills" ref={sectionRef} className="section-padding relative overflow-hidden bg-card/50">
+      {/* Background */}
+      <div className="absolute inset-0 grid-pattern opacity-30" />
+      <div className="absolute top-1/4 -right-32 w-64 h-64 bg-primary/10 blob blur-3xl" />
+      <div className="absolute bottom-1/4 -left-32 w-64 h-64 bg-secondary/10 blob blur-3xl" />
+
       <div className="container-width relative">
-        {/* Section header */}
-        <div className="text-center mb-20">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-6">
-            <Sparkles className="w-4 h-4 text-primary" />
-            <span className="text-sm text-muted-foreground">Skills I have mastered</span>
-          </div>
-          
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6">
-            Technical <span className="gradient-text">Skills</span>
+        {/* Header */}
+        <div className="skills-title opacity-0 text-center mb-16">
+          <span className="font-mono text-sm text-primary uppercase tracking-widest">Tech stack</span>
+          <h2 className="text-5xl md:text-6xl lg:text-7xl font-display mt-4">
+            Skills & <span className="italic text-primary">Tools</span>
           </h2>
-          
-          <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
-            Technologies and tools I use to bring ideas to life
-          </p>
         </div>
 
-        {/* Skills grid with icons */}
-        <div ref={gridRef} className="max-w-4xl mx-auto">
-          {/* Main skills display */}
-          <div className="flex flex-wrap justify-center gap-6 md:gap-8">
-            {allSkills.map((skill, index) => (
-              <div
-                key={`${skill.name}-${index}`}
-                className="skill-item opacity-0 flex flex-col items-center gap-3 group"
-              >
-                <div className="relative">
-                  <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl glass p-3 skill-icon group-hover:glow-box transition-all duration-300">
-                    <img 
-                      src={skill.icon} 
-                      alt={skill.name}
-                      className="w-full h-full object-contain"
-                      loading="lazy"
-                    />
-                  </div>
-                  {/* Glow effect on hover */}
-                  <div className="absolute inset-0 rounded-2xl bg-primary/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" />
-                </div>
-                <span className="text-xs md:text-sm text-muted-foreground group-hover:text-foreground transition-colors font-medium">
-                  {skill.name}
-                </span>
-              </div>
-            ))}
-          </div>
+        {/* Category filters */}
+        <div className="flex flex-wrap justify-center gap-3 mb-16">
+          {categories.map((category) => (
+            <button
+              key={category}
+              onClick={() => setActiveCategory(category)}
+              className={`skill-filter opacity-0 px-6 py-2 rounded-full font-mono text-sm transition-all duration-300 ${
+                activeCategory === category
+                  ? 'bg-primary text-primary-foreground'
+                  : 'bg-card border-2 border-border hover:border-primary text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              {category}
+            </button>
+          ))}
+        </div>
 
-          {/* Additional skills as text badges */}
-          <div className="mt-16 pt-8 border-t border-border/30">
-            <p className="text-center text-sm text-muted-foreground mb-6">Also experienced with</p>
-            <div className="flex flex-wrap justify-center gap-3">
-              {['scikit-learn', 'XGBoost', 'pandas', 'NumPy', 'OpenTelemetry', 'Prometheus', 'Grafana', 'Jenkins', 'Ansible', 'Azure DevOps', '.NET', 'C#'].map((skill) => (
-                <span 
-                  key={skill}
-                  className="px-4 py-2 rounded-full glass text-sm text-muted-foreground hover:text-primary hover:border-primary/30 transition-all duration-300 cursor-default"
-                >
-                  {skill}
-                </span>
-              ))}
+        {/* Skills grid */}
+        <div className="flex flex-wrap justify-center gap-6 max-w-5xl mx-auto mb-16">
+          {filteredSkills.map((skill) => (
+            <div
+              key={skill.name}
+              className="skill-item opacity-0 relative group"
+              onMouseEnter={() => setHoveredSkill(skill.name)}
+              onMouseLeave={() => setHoveredSkill(null)}
+            >
+              <div className={`
+                w-20 h-20 rounded-2xl border-2 border-border bg-card p-4
+                flex items-center justify-center transition-all duration-300
+                ${hoveredSkill === skill.name ? 'border-primary scale-110 shadow-lg' : 'hover:border-primary/50'}
+              `}>
+                <img
+                  src={skill.icon}
+                  alt={skill.name}
+                  className="w-full h-full object-contain"
+                  loading="lazy"
+                />
+              </div>
+              
+              {/* Tooltip */}
+              <div className={`
+                absolute -bottom-10 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full
+                bg-foreground text-background text-xs font-medium whitespace-nowrap
+                transition-all duration-300 pointer-events-none
+                ${hoveredSkill === skill.name ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}
+              `}>
+                {skill.name}
+              </div>
             </div>
+          ))}
+        </div>
+
+        {/* Additional skills */}
+        <div className="max-w-4xl mx-auto">
+          <p className="text-center text-sm text-muted-foreground mb-6 font-mono uppercase tracking-wider">
+            Also experienced with
+          </p>
+          <div className="flex flex-wrap justify-center gap-3">
+            {additionalSkills.map((skill) => (
+              <span
+                key={skill}
+                className="px-4 py-2 rounded-full border-2 border-border bg-background text-sm text-muted-foreground hover:border-primary hover:text-primary transition-all duration-300 cursor-default"
+              >
+                {skill}
+              </span>
+            ))}
           </div>
         </div>
       </div>
