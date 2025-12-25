@@ -1,89 +1,89 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { animate, stagger } from 'animejs';
-import { 
-  Code2, Server, Cloud, Brain, Activity, Container
-} from 'lucide-react';
+import { Sparkles } from 'lucide-react';
+
+interface Skill {
+  name: string;
+  icon: string;
+}
 
 interface SkillCategory {
   title: string;
-  icon: React.ElementType;
-  skills: string[];
-  color: string;
+  skills: Skill[];
 }
 
 const skillCategories: SkillCategory[] = [
   {
     title: 'Frontend',
-    icon: Code2,
-    skills: ['React', 'TypeScript', 'JavaScript', 'HTML/CSS', 'Vite', 'React-Leaflet'],
-    color: 'from-cyan-500 to-blue-500',
+    skills: [
+      { name: 'React', icon: 'https://skillicons.dev/icons?i=react' },
+      { name: 'TypeScript', icon: 'https://skillicons.dev/icons?i=ts' },
+      { name: 'JavaScript', icon: 'https://skillicons.dev/icons?i=js' },
+      { name: 'HTML', icon: 'https://skillicons.dev/icons?i=html' },
+      { name: 'CSS', icon: 'https://skillicons.dev/icons?i=css' },
+      { name: 'Tailwind', icon: 'https://skillicons.dev/icons?i=tailwind' },
+    ],
   },
   {
     title: 'Backend',
-    icon: Server,
-    skills: ['Python', 'Flask', 'Java', 'C#', '.NET', 'REST APIs', 'PostgreSQL'],
-    color: 'from-green-500 to-emerald-500',
+    skills: [
+      { name: 'Python', icon: 'https://skillicons.dev/icons?i=python' },
+      { name: 'Flask', icon: 'https://skillicons.dev/icons?i=flask' },
+      { name: 'Java', icon: 'https://skillicons.dev/icons?i=java' },
+      { name: 'PostgreSQL', icon: 'https://skillicons.dev/icons?i=postgres' },
+      { name: 'MySQL', icon: 'https://skillicons.dev/icons?i=mysql' },
+    ],
   },
   {
-    title: 'DevOps',
-    icon: Container,
-    skills: ['Docker', 'Kubernetes', 'CI/CD', 'GitHub Actions', 'Jenkins', 'Nginx', 'Ansible'],
-    color: 'from-orange-500 to-amber-500',
+    title: 'DevOps & Cloud',
+    skills: [
+      { name: 'Docker', icon: 'https://skillicons.dev/icons?i=docker' },
+      { name: 'Kubernetes', icon: 'https://skillicons.dev/icons?i=kubernetes' },
+      { name: 'AWS', icon: 'https://skillicons.dev/icons?i=aws' },
+      { name: 'Linux', icon: 'https://skillicons.dev/icons?i=linux' },
+      { name: 'Nginx', icon: 'https://skillicons.dev/icons?i=nginx' },
+      { name: 'Git', icon: 'https://skillicons.dev/icons?i=git' },
+      { name: 'GitHub', icon: 'https://skillicons.dev/icons?i=github' },
+    ],
   },
   {
-    title: 'AI & ML',
-    icon: Brain,
-    skills: ['scikit-learn', 'XGBoost', 'PyTorch', 'TensorFlow', 'pandas', 'numpy'],
-    color: 'from-purple-500 to-pink-500',
-  },
-  {
-    title: 'Observability',
-    icon: Activity,
-    skills: ['OpenTelemetry', 'Prometheus', 'Grafana Loki', 'Grafana Tempo', 'Distributed Tracing'],
-    color: 'from-red-500 to-rose-500',
-  },
-  {
-    title: 'Cloud & Linux',
-    icon: Cloud,
-    skills: ['AWS', 'Google Cloud', 'Linux', 'Azure DevOps'],
-    color: 'from-indigo-500 to-violet-500',
+    title: 'AI & Data',
+    skills: [
+      { name: 'PyTorch', icon: 'https://skillicons.dev/icons?i=pytorch' },
+      { name: 'TensorFlow', icon: 'https://skillicons.dev/icons?i=tensorflow' },
+    ],
   },
 ];
 
+// All skills flattened for the marquee effect
+const allSkills = skillCategories.flatMap(cat => cat.skills);
+
 const Skills = () => {
   const sectionRef = useRef<HTMLElement>(null);
-  const [visibleCategories, setVisibleCategories] = useState<Set<number>>(new Set());
+  const gridRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            const index = parseInt(entry.target.getAttribute('data-index') || '0');
-            setVisibleCategories(prev => new Set([...prev, index]));
-            
-            animate(entry.target, {
-              translateY: [40, 0],
-              opacity: [0, 1],
-              duration: 800,
-              ease: 'outExpo',
-            });
-
-            animate(entry.target.querySelectorAll('.skill-badge'), {
+            animate('.skill-item', {
               scale: [0, 1],
               opacity: [0, 1],
-              duration: 400,
-              delay: stagger(50, { start: 300 }),
+              duration: 600,
+              delay: stagger(30),
               ease: 'outBack',
             });
+            observer.disconnect();
           }
         });
       },
-      { threshold: 0.2, rootMargin: '-50px' }
+      { threshold: 0.2 }
     );
 
-    const cards = sectionRef.current?.querySelectorAll('.skill-card');
-    cards?.forEach(card => observer.observe(card));
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
 
     return () => observer.disconnect();
   }, []);
@@ -92,50 +92,70 @@ const Skills = () => {
     <section 
       id="skills" 
       ref={sectionRef}
-      className="section-padding relative"
+      className="section-padding relative overflow-hidden"
     >
-      <div className="container-width">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
-          <span className="gradient-text">Skills & Tech Stack</span>
-        </h2>
-        <p className="text-muted-foreground text-center max-w-2xl mx-auto mb-16">
-          Technologies and tools I use to bring ideas to life, from frontend interfaces 
-          to scalable cloud infrastructure.
-        </p>
+      {/* Background decoration */}
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-1/2 bg-gradient-to-t from-primary/5 to-transparent" />
+      
+      <div className="container-width relative">
+        {/* Section header */}
+        <div className="text-center mb-20">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-6">
+            <Sparkles className="w-4 h-4 text-primary" />
+            <span className="text-sm text-muted-foreground">Skills I have mastered</span>
+          </div>
+          
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6">
+            Technical <span className="gradient-text">Skills</span>
+          </h2>
+          
+          <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
+            Technologies and tools I use to bring ideas to life
+          </p>
+        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {skillCategories.map((category, index) => (
-            <div
-              key={category.title}
-              data-index={index}
-              className="skill-card group relative p-6 rounded-xl bg-card border border-border opacity-0 hover:border-primary/30 transition-all duration-300"
-            >
-              {/* Header */}
-              <div className="flex items-center gap-3 mb-4">
-                <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${category.color} flex items-center justify-center`}>
-                  <category.icon className="w-5 h-5 text-white" />
+        {/* Skills grid with icons */}
+        <div ref={gridRef} className="max-w-4xl mx-auto">
+          {/* Main skills display */}
+          <div className="flex flex-wrap justify-center gap-6 md:gap-8">
+            {allSkills.map((skill, index) => (
+              <div
+                key={`${skill.name}-${index}`}
+                className="skill-item opacity-0 flex flex-col items-center gap-3 group"
+              >
+                <div className="relative">
+                  <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl glass p-3 skill-icon group-hover:glow-box transition-all duration-300">
+                    <img 
+                      src={skill.icon} 
+                      alt={skill.name}
+                      className="w-full h-full object-contain"
+                      loading="lazy"
+                    />
+                  </div>
+                  {/* Glow effect on hover */}
+                  <div className="absolute inset-0 rounded-2xl bg-primary/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" />
                 </div>
-                <h3 className="text-lg font-semibold text-foreground">{category.title}</h3>
+                <span className="text-xs md:text-sm text-muted-foreground group-hover:text-foreground transition-colors font-medium">
+                  {skill.name}
+                </span>
               </div>
+            ))}
+          </div>
 
-              {/* Skills */}
-              <div className="flex flex-wrap gap-2">
-                {category.skills.map((skill) => (
-                  <span
-                    key={skill}
-                    className="skill-badge px-3 py-1.5 text-sm rounded-full bg-muted/50 text-muted-foreground hover:bg-primary/10 hover:text-primary transition-colors cursor-default"
-                  >
-                    {skill}
-                  </span>
-                ))}
-              </div>
-
-              {/* Hover glow effect */}
-              <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-                <div className={`absolute inset-0 rounded-xl bg-gradient-to-br ${category.color} opacity-5`} />
-              </div>
+          {/* Additional skills as text badges */}
+          <div className="mt-16 pt-8 border-t border-border/30">
+            <p className="text-center text-sm text-muted-foreground mb-6">Also experienced with</p>
+            <div className="flex flex-wrap justify-center gap-3">
+              {['scikit-learn', 'XGBoost', 'pandas', 'NumPy', 'OpenTelemetry', 'Prometheus', 'Grafana', 'Jenkins', 'Ansible', 'Azure DevOps', '.NET', 'C#'].map((skill) => (
+                <span 
+                  key={skill}
+                  className="px-4 py-2 rounded-full glass text-sm text-muted-foreground hover:text-primary hover:border-primary/30 transition-all duration-300 cursor-default"
+                >
+                  {skill}
+                </span>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
       </div>
     </section>
