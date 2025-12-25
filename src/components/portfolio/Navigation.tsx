@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const navItems = [
@@ -23,7 +23,7 @@ const Navigation = () => {
 
       const sections = navItems.map(item => item.href.slice(1) || 'hero');
       for (const section of [...sections].reverse()) {
-        const element = document.getElementById(section === 'hero' ? '' : section) || 
+        const element = document.getElementById(section === 'hero' ? '' : section) ||
                         (section === 'hero' ? document.body : null);
         if (element) {
           const rect = element.getBoundingClientRect();
@@ -42,7 +42,7 @@ const Navigation = () => {
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     setIsMobileMenuOpen(false);
-    
+
     if (href === '#') {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
@@ -56,23 +56,21 @@ const Navigation = () => {
       <nav
         className={cn(
           'fixed top-0 left-0 right-0 z-50 transition-all duration-500',
-          isScrolled
-            ? 'py-3'
-            : 'py-5'
+          isScrolled ? 'py-3' : 'py-5'
         )}
       >
         <div className="container-width">
           <div className={cn(
             'flex items-center justify-between transition-all duration-500 rounded-full px-6 py-3',
-            isScrolled ? 'glass-strong shadow-lg' : ''
+            isScrolled ? 'bg-card/80 backdrop-blur-xl border-2 border-border shadow-lg' : ''
           )}>
             {/* Logo */}
-            <a 
-              href="#" 
+            <a
+              href="#"
               onClick={(e) => handleClick(e, '#')}
-              className="text-xl font-display font-bold gradient-text hover:opacity-80 transition-opacity"
+              className="text-2xl font-display font-normal hover:text-primary transition-colors"
             >
-              AS.
+              AS<span className="text-primary">.</span>
             </a>
 
             {/* Desktop Navigation */}
@@ -85,14 +83,11 @@ const Navigation = () => {
                     className={cn(
                       'relative px-4 py-2 text-sm font-medium transition-all duration-300 rounded-full',
                       activeSection === (href === '#' ? '' : href.slice(1))
-                        ? 'text-primary'
-                        : 'text-muted-foreground hover:text-foreground'
+                        ? 'text-primary-foreground bg-primary'
+                        : 'text-muted-foreground hover:text-foreground hover:bg-muted'
                     )}
                   >
                     {label}
-                    {activeSection === (href === '#' ? '' : href.slice(1)) && (
-                      <span className="absolute inset-0 bg-primary/10 rounded-full" />
-                    )}
                   </a>
                 </li>
               ))}
@@ -102,15 +97,18 @@ const Navigation = () => {
             <div className="hidden md:block">
               <Button
                 size="sm"
-                className="rounded-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-6"
+                className="rounded-full bg-foreground text-background hover:bg-foreground/90 font-semibold px-6 brutal-border"
                 asChild
               >
-                <a href="#contact">Resume</a>
+                <a href="#contact">
+                  <FileText className="w-4 h-4 mr-2" />
+                  Resume
+                </a>
               </Button>
             </div>
 
             {/* Mobile Menu Button */}
-            <button 
+            <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="md:hidden p-2 text-muted-foreground hover:text-foreground transition-colors"
             >
@@ -127,7 +125,7 @@ const Navigation = () => {
       )}>
         <div className="absolute inset-0 bg-background/95 backdrop-blur-xl" onClick={() => setIsMobileMenuOpen(false)} />
         <div className={cn(
-          'absolute inset-x-4 top-24 glass-strong rounded-2xl p-6 transition-all duration-500',
+          'absolute inset-x-4 top-24 bg-card border-2 border-border rounded-3xl p-6 transition-all duration-500',
           isMobileMenuOpen ? 'translate-y-0 opacity-100' : '-translate-y-8 opacity-0'
         )}>
           <ul className="space-y-2">
@@ -139,8 +137,8 @@ const Navigation = () => {
                   className={cn(
                     'block px-4 py-3 text-lg font-medium rounded-xl transition-all duration-300',
                     activeSection === (href === '#' ? '' : href.slice(1))
-                      ? 'text-primary bg-primary/10'
-                      : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
+                      ? 'text-primary-foreground bg-primary'
+                      : 'text-muted-foreground hover:text-foreground hover:bg-muted'
                   )}
                 >
                   {label}
@@ -150,10 +148,13 @@ const Navigation = () => {
           </ul>
           <div className="mt-6 pt-6 border-t border-border">
             <Button
-              className="w-full rounded-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold"
+              className="w-full rounded-full bg-foreground text-background hover:bg-foreground/90 font-semibold brutal-border"
               asChild
             >
-              <a href="#contact" onClick={() => setIsMobileMenuOpen(false)}>Get Resume</a>
+              <a href="#contact" onClick={() => setIsMobileMenuOpen(false)}>
+                <FileText className="w-4 h-4 mr-2" />
+                Get Resume
+              </a>
             </Button>
           </div>
         </div>

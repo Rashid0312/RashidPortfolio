@@ -1,37 +1,44 @@
-import { useEffect, useRef } from "react";
-import { animate, stagger } from "animejs";
-import { GraduationCap, MapPin, Languages, Users, Sparkles } from "lucide-react";
+import { useEffect, useRef } from 'react';
+import { animate, stagger } from 'animejs';
+import { Code2, Cpu, Cloud, Users } from 'lucide-react';
 
 const About = () => {
   const sectionRef = useRef<HTMLElement>(null);
-  const cardsRef = useRef<HTMLDivElement>(null);
-  const textRef = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            animate(textRef.current, {
-              opacity: [0, 1],
-              translateY: [40, 0],
-              duration: 1000,
-              ease: "outExpo",
-            });
-
-            animate(cardsRef.current?.children, {
+            animate('.about-title', {
               translateY: [60, 0],
               opacity: [0, 1],
-              scale: [0.95, 1],
-              duration: 800,
-              delay: stagger(100, { start: 300 }),
-              ease: "outExpo",
+              duration: 1000,
+              easing: 'easeOutExpo',
             });
+
+            animate('.about-text', {
+              translateY: [40, 0],
+              opacity: [0, 1],
+              duration: 800,
+              delay: 200,
+              easing: 'easeOutExpo',
+            });
+
+            animate('.about-card', {
+              translateY: [80, 0],
+              opacity: [0, 1],
+              rotate: [5, 0],
+              duration: 800,
+              delay: stagger(100, { start: 400 }),
+              easing: 'easeOutBack',
+            });
+
             observer.disconnect();
           }
         });
       },
-      { threshold: 0.15 },
+      { threshold: 0.2 }
     );
 
     if (sectionRef.current) {
@@ -41,93 +48,99 @@ const About = () => {
     return () => observer.disconnect();
   }, []);
 
-  const cards = [
+  const interests = [
     {
-      icon: GraduationCap,
-      title: "Education",
-      content: "Linnéuniversitetet",
-      subtitle: "Computer Science • 2024-2027",
-      color: "from-blue-500 to-cyan-500",
+      icon: Code2,
+      title: 'Full-Stack',
+      description: 'Building end-to-end applications with modern frameworks',
+      color: 'bg-primary',
     },
     {
-      icon: MapPin,
-      title: "Location",
-      content: "Växjö / Göteborg",
-      subtitle: "Sweden 🇸🇪",
-      color: "from-green-500 to-emerald-500",
+      icon: Cpu,
+      title: 'AI & ML',
+      description: 'Creating intelligent systems with machine learning',
+      color: 'bg-secondary',
     },
     {
-      icon: Languages,
-      title: "Languages",
-      content: "4 Languages",
-      subtitle: "Swedish, English, Somali, Spanish",
-      color: "from-purple-500 to-pink-500",
+      icon: Cloud,
+      title: 'Cloud & DevOps',
+      description: 'Deploying scalable infrastructure on cloud platforms',
+      color: 'bg-accent',
     },
     {
       icon: Users,
-      title: "LNU AI Society",
-      content: "120+ Members",
-      subtitle: "Founder & Head of Communications",
-      color: "from-orange-500 to-red-500",
+      title: 'Community',
+      description: 'Leading AI Society with 120+ members at LNU',
+      color: 'bg-mint',
     },
   ];
 
   return (
     <section id="about" ref={sectionRef} className="section-padding relative overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute top-1/2 left-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 -translate-x-1/2" />
-      
+      {/* Background elements */}
+      <div className="absolute top-20 left-10 w-20 h-20 border-2 border-primary/20 rounded-full float" />
+      <div className="absolute bottom-40 right-20 w-32 h-32 border-2 border-secondary/20 float-delayed" style={{ borderRadius: '30% 70% 70% 30% / 30% 30% 70% 70%' }} />
+
       <div className="container-width relative">
-        {/* Section header */}
-        <div className="text-center mb-20">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-6">
-            <Sparkles className="w-4 h-4 text-primary" />
-            <span className="text-sm text-muted-foreground">Get to know me</span>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          {/* Left - Text content */}
+          <div className="space-y-8">
+            <div className="about-title opacity-0">
+              <span className="font-mono text-sm text-primary uppercase tracking-widest">About me</span>
+              <h2 className="text-5xl md:text-6xl lg:text-7xl font-display mt-4 leading-tight">
+                Passionate about
+                <span className="italic text-primary"> building</span>
+                <br />
+                the future
+              </h2>
+            </div>
+
+            <div className="about-text opacity-0 space-y-6 text-lg text-muted-foreground">
+              <p>
+                I'm a software engineering student at Linnéuniversitetet with a deep passion for
+                <span className="text-foreground font-medium"> artificial intelligence</span> and
+                <span className="text-foreground font-medium"> cloud technologies</span>.
+              </p>
+              <p>
+                As a founding member and Communications Lead of the LNU AI Society, I've helped grow
+                our community to over 120 members and organized hackathons that bring together
+                students and industry professionals.
+              </p>
+              <p>
+                I believe in learning by building — every project is an opportunity to push
+                boundaries and create something meaningful.
+              </p>
+            </div>
           </div>
-          
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6">
-            About <span className="gradient-text">Me</span>
-          </h2>
-          
-          <p 
-            ref={textRef}
-            className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed opacity-0"
-          >
-            A passionate software engineering student with a focus on{" "}
-            <span className="text-foreground font-medium">AI</span>,{" "}
-            <span className="text-foreground font-medium">cloud infrastructure</span>, and building{" "}
-            <span className="text-foreground font-medium">impactful applications</span>{" "}
-            that solve real-world problems.
-          </p>
+
+          {/* Right - Interest cards */}
+          <div className="grid grid-cols-2 gap-4">
+            {interests.map(({ icon: Icon, title, description, color }, index) => (
+              <div
+                key={title}
+                className={`about-card opacity-0 bento-card p-6 ${index === 0 ? 'col-span-2' : ''}`}
+              >
+                <div className={`w-12 h-12 ${color} rounded-2xl flex items-center justify-center mb-4`}>
+                  <Icon className="w-6 h-6 text-background" />
+                </div>
+                <h3 className="text-xl font-display font-medium mb-2">{title}</h3>
+                <p className="text-sm text-muted-foreground">{description}</p>
+              </div>
+            ))}
+          </div>
         </div>
 
-        {/* Info cards */}
-        <div ref={cardsRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {cards.map(({ icon: Icon, title, content, subtitle, color }) => (
-            <div
-              key={title}
-              className="group relative p-6 rounded-2xl glass card-hover opacity-0 overflow-hidden"
-            >
-              {/* Gradient background on hover */}
-              <div className={`absolute inset-0 bg-gradient-to-br ${color} opacity-0 group-hover:opacity-5 transition-opacity duration-500`} />
-              
-              <div className="relative z-10">
-                <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${color} flex items-center justify-center mb-5 shadow-lg`}>
-                  <Icon className="w-7 h-7 text-white" />
-                </div>
-                
-                <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2">
-                  {title}
-                </p>
-                
-                <p className="text-xl font-display font-bold text-foreground mb-1">
-                  {content}
-                </p>
-                
-                <p className="text-sm text-muted-foreground">
-                  {subtitle}
-                </p>
-              </div>
+        {/* Stats row */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-20">
+          {[
+            { value: '3+', label: 'Years Coding' },
+            { value: '10+', label: 'Projects Built' },
+            { value: '120+', label: 'AI Society Members' },
+            { value: '3', label: 'Certifications' },
+          ].map(({ value, label }) => (
+            <div key={label} className="about-card opacity-0 text-center p-6 rounded-2xl border-2 border-border bg-card/50">
+              <p className="text-4xl md:text-5xl font-display text-primary">{value}</p>
+              <p className="text-sm text-muted-foreground mt-2 font-mono uppercase tracking-wider">{label}</p>
             </div>
           ))}
         </div>

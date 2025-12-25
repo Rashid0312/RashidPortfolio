@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { animate, stagger } from 'animejs';
-import { ExternalLink, Github, Flame, Heart, Cloud, ArrowUpRight, Sparkles } from 'lucide-react';
+import { ExternalLink, Github, Flame, Heart, Cloud, ArrowUpRight } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 
 interface Project {
@@ -13,79 +13,86 @@ interface Project {
   tech: string[];
   github?: string;
   live?: string;
-  gradient: string;
-  accentColor: string;
+  color: string;
+  accent: string;
 }
 
 const projects: Project[] = [
   {
     title: 'ForestFire',
-    subtitle: 'Interactive Wildfire Risk Map',
-    description: 'ML-powered global wildfire risk visualization platform with real-time predictions and weather integration.',
+    subtitle: 'ML-Powered Wildfire Risk Map',
+    description: 'Global wildfire risk visualization platform with real-time predictions, location search, and weather integration.',
     icon: Flame,
     category: 'AI / ML',
     features: [
-      'Location-based risk analysis with search',
-      'Country-level color-coded visualization',
-      'Real-time weather integration',
-      'Point-click predictions with fire indices',
+      'Location-based risk analysis',
+      'Country-level visualization',
+      'Real-time weather data',
+      'Fire indices predictions',
     ],
-    tech: ['React', 'TypeScript', 'Python', 'Flask', 'scikit-learn', 'XGBoost', 'Leaflet', 'Docker'],
+    tech: ['React', 'TypeScript', 'Python', 'Flask', 'scikit-learn', 'XGBoost', 'Leaflet'],
     github: 'https://github.com/Rashid0312/ForestFire',
-    gradient: 'from-orange-500 via-red-500 to-rose-600',
-    accentColor: 'orange',
+    color: 'from-orange-500 to-red-600',
+    accent: 'bg-orange-500',
   },
   {
     title: 'Rosetta',
     subtitle: 'Health & Wellbeing Platform',
-    description: 'Neurawave 2025 Hackathon project for migraine prediction using ML and synthetic health data.',
+    description: 'Neurawave 2025 Hackathon project for migraine prediction using ML and synthetic health data processing.',
     icon: Heart,
     category: 'Healthcare',
     features: [
-      'Migraine prediction & insights',
-      'MBRAIN21 research dataset integration',
-      'Weather + health data correlation',
-      'Synthetic data processing (100k+ records)',
+      'Migraine prediction engine',
+      'MBRAIN21 dataset integration',
+      'Weather correlation analysis',
+      '100k+ records processed',
     ],
     tech: ['TypeScript', 'Python', 'Flask', 'Jupyter', 'Docker'],
     github: 'https://github.com/Rashid0312/Rosetta',
-    gradient: 'from-pink-500 via-purple-500 to-violet-600',
-    accentColor: 'pink',
+    color: 'from-pink-500 to-purple-600',
+    accent: 'bg-pink-500',
   },
   {
     title: 'SkyView',
-    subtitle: 'Multi-Tenant Observability Platform',
-    description: 'SaaS platform for logs, metrics, and traces with complete data isolation per tenant.',
+    subtitle: 'Observability Platform',
+    description: 'Multi-tenant SaaS platform for logs, metrics, and traces with complete data isolation per tenant.',
     icon: Cloud,
     category: 'DevOps',
     features: [
-      'Multi-tenant architecture with data isolation',
-      'JWT auth + API key validation',
-      'OpenTelemetry pipeline integration',
-      'Grafana Loki, Tempo, Prometheus',
+      'Multi-tenant architecture',
+      'JWT + API key auth',
+      'OpenTelemetry pipeline',
+      'Grafana integration',
     ],
     tech: ['React', 'Flask', 'PostgreSQL', 'Docker', 'Nginx', 'OpenTelemetry'],
-    gradient: 'from-cyan-500 via-blue-500 to-indigo-600',
-    accentColor: 'cyan',
+    color: 'from-blue-500 to-cyan-500',
+    accent: 'bg-blue-500',
   },
 ];
 
 const Projects = () => {
   const sectionRef = useRef<HTMLElement>(null);
-  const cardsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            animate(cardsRef.current?.children, {
+            animate('.projects-title', {
+              translateY: [60, 0],
+              opacity: [0, 1],
+              duration: 1000,
+              easing: 'easeOutExpo',
+            });
+
+            animate('.project-card', {
               translateY: [100, 0],
               opacity: [0, 1],
               duration: 1000,
-              delay: stagger(150),
-              ease: 'outExpo',
+              delay: stagger(150, { start: 300 }),
+              easing: 'easeOutExpo',
             });
+
             observer.disconnect();
           }
         });
@@ -101,39 +108,26 @@ const Projects = () => {
   }, []);
 
   return (
-    <section 
-      id="projects" 
-      ref={sectionRef}
-      className="section-padding relative overflow-hidden"
-    >
-      {/* Background decoration */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-secondary/5 rounded-full blur-3xl translate-x-1/2 -translate-y-1/2" />
-      
+    <section id="projects" ref={sectionRef} className="section-padding relative overflow-hidden">
+      {/* Background */}
+      <div className="absolute inset-0 dot-pattern opacity-30" />
+
       <div className="container-width relative">
-        {/* Section header */}
-        <div className="text-center mb-20">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-6">
-            <Sparkles className="w-4 h-4 text-primary" />
-            <span className="text-sm text-muted-foreground">Built, not imagined</span>
-          </div>
-          
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6">
-            Featured <span className="gradient-text">Projects</span>
+        {/* Header */}
+        <div className="projects-title opacity-0 text-center mb-20">
+          <span className="font-mono text-sm text-primary uppercase tracking-widest">Selected work</span>
+          <h2 className="text-5xl md:text-6xl lg:text-7xl font-display mt-4">
+            Featured <span className="italic text-primary">Projects</span>
           </h2>
-          
-          <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
-            Real-world applications showcasing expertise in full-stack development, 
-            machine learning, and cloud infrastructure.
+          <p className="text-lg text-muted-foreground mt-6 max-w-2xl mx-auto">
+            Real applications built to solve real problems — from ML predictions to observability platforms
           </p>
         </div>
 
-        {/* Project cards */}
-        <div 
-          ref={cardsRef}
-          className="grid grid-cols-1 lg:grid-cols-3 gap-8"
-        >
-          {projects.map((project) => (
-            <ProjectCard key={project.title} project={project} />
+        {/* Projects grid */}
+        <div className="space-y-8">
+          {projects.map((project, index) => (
+            <ProjectCard key={project.title} project={project} index={index} />
           ))}
         </div>
       </div>
@@ -141,116 +135,91 @@ const Projects = () => {
   );
 };
 
-const ProjectCard = ({ project }: { project: Project }) => {
-  const cardRef = useRef<HTMLDivElement>(null);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 100;
-    const y = ((e.clientY - rect.top) / rect.height) * 100;
-    
-    cardRef.current.style.setProperty('--mouse-x', `${x}%`);
-    cardRef.current.style.setProperty('--mouse-y', `${y}%`);
-  };
+const ProjectCard = ({ project, index }: { project: Project; index: number }) => {
+  const isEven = index % 2 === 0;
 
   return (
-    <div
-      ref={cardRef}
-      onMouseMove={handleMouseMove}
-      className="group relative rounded-2xl glass overflow-hidden card-hover opacity-0"
-    >
-      {/* Spotlight effect */}
-      <div 
-        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-        style={{
-          background: `radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), hsl(var(--primary) / 0.1), transparent 40%)`,
-        }}
-      />
+    <div className={`project-card opacity-0 group relative rounded-3xl border-2 border-border bg-card overflow-hidden transition-all duration-500 hover:border-primary/50`}>
+      <div className={`grid grid-cols-1 lg:grid-cols-2 gap-0 ${!isEven ? 'lg:flex-row-reverse' : ''}`}>
+        {/* Content */}
+        <div className={`p-8 md:p-12 flex flex-col justify-center ${!isEven ? 'lg:order-2' : ''}`}>
+          {/* Category badge */}
+          <div className="flex items-center gap-3 mb-6">
+            <span className={`sticker ${project.accent} text-background text-xs`}>
+              {project.category}
+            </span>
+            <span className="font-mono text-xs text-muted-foreground">0{index + 1}</span>
+          </div>
 
-      {/* Project header with gradient */}
-      <div className={`relative h-40 bg-gradient-to-br ${project.gradient} flex items-center justify-center overflow-hidden`}>
-        <project.icon className="w-20 h-20 text-white/80 group-hover:scale-110 transition-transform duration-500" />
-        
-        {/* Category badge */}
-        <div className="absolute top-4 left-4">
-          <Badge variant="secondary" className="bg-white/20 backdrop-blur-sm text-white border-0 text-xs font-medium">
-            {project.category}
-          </Badge>
+          {/* Title */}
+          <h3 className="text-3xl md:text-4xl font-display mb-2 group-hover:text-primary transition-colors">
+            {project.title}
+          </h3>
+          <p className="text-lg text-muted-foreground mb-4">{project.subtitle}</p>
+
+          {/* Description */}
+          <p className="text-muted-foreground mb-6 leading-relaxed">{project.description}</p>
+
+          {/* Features */}
+          <ul className="space-y-2 mb-8">
+            {project.features.map((feature) => (
+              <li key={feature} className="flex items-center gap-3 text-sm text-muted-foreground">
+                <span className={`w-1.5 h-1.5 rounded-full ${project.accent}`} />
+                {feature}
+              </li>
+            ))}
+          </ul>
+
+          {/* Tech stack */}
+          <div className="flex flex-wrap gap-2 mb-8">
+            {project.tech.map((tech) => (
+              <Badge
+                key={tech}
+                variant="secondary"
+                className="rounded-full px-3 py-1 text-xs font-mono bg-muted text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
+              >
+                {tech}
+              </Badge>
+            ))}
+          </div>
+
+          {/* Links */}
+          <div className="flex gap-4">
+            {project.github && (
+              <a
+                href={project.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-sm font-medium underline-animation hover:text-primary transition-colors"
+              >
+                <Github className="w-4 h-4" />
+                View Code
+                <ArrowUpRight className="w-3 h-3" />
+              </a>
+            )}
+            {project.live && (
+              <a
+                href={project.live}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-sm font-medium underline-animation hover:text-primary transition-colors"
+              >
+                <ExternalLink className="w-4 h-4" />
+                Live Demo
+                <ArrowUpRight className="w-3 h-3" />
+              </a>
+            )}
+          </div>
         </div>
-        
-        {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent" />
-      </div>
 
-      <div className="relative p-6 pt-4">
-        {/* Title */}
-        <h3 className="text-2xl font-display font-bold text-foreground mb-1 group-hover:gradient-text transition-all duration-300">
-          {project.title}
-        </h3>
-        
-        <p className="text-sm text-muted-foreground mb-3">
-          {project.subtitle}
-        </p>
-        
-        <p className="text-muted-foreground text-sm mb-5 line-clamp-2">
-          {project.description}
-        </p>
+        {/* Visual */}
+        <div className={`relative h-64 lg:h-auto bg-gradient-to-br ${project.color} flex items-center justify-center ${!isEven ? 'lg:order-1' : ''}`}>
+          <div className="absolute inset-0 bg-noise opacity-10" />
+          <project.icon className="w-32 h-32 text-white/80 group-hover:scale-110 transition-transform duration-500" />
 
-        {/* Features */}
-        <ul className="space-y-2 mb-6">
-          {project.features.slice(0, 3).map((feature, i) => (
-            <li key={i} className="text-sm text-muted-foreground flex items-start gap-2">
-              <span className="text-primary mt-0.5">▹</span>
-              <span className="line-clamp-1">{feature}</span>
-            </li>
-          ))}
-        </ul>
-
-        {/* Tech Stack */}
-        <div className="flex flex-wrap gap-1.5 mb-6">
-          {project.tech.slice(0, 5).map((tech) => (
-            <Badge 
-              key={tech} 
-              variant="secondary"
-              className="text-xs bg-muted/50 text-muted-foreground hover:bg-primary/10 hover:text-primary transition-colors"
-            >
-              {tech}
-            </Badge>
-          ))}
-          {project.tech.length > 5 && (
-            <Badge variant="secondary" className="text-xs bg-muted/50 text-muted-foreground">
-              +{project.tech.length - 5}
-            </Badge>
-          )}
-        </div>
-
-        {/* Links */}
-        <div className="flex gap-3 pt-4 border-t border-border/50">
-          {project.github && (
-            <a
-              href={project.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors group/link"
-            >
-              <Github className="w-4 h-4" />
-              <span>Code</span>
-              <ArrowUpRight className="w-3 h-3 opacity-0 -translate-y-1 translate-x-1 group-hover/link:opacity-100 group-hover/link:translate-y-0 group-hover/link:translate-x-0 transition-all" />
-            </a>
-          )}
-          {project.live && (
-            <a
-              href={project.live}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors group/link"
-            >
-              <ExternalLink className="w-4 h-4" />
-              <span>Live Demo</span>
-              <ArrowUpRight className="w-3 h-3 opacity-0 -translate-y-1 translate-x-1 group-hover/link:opacity-100 group-hover/link:translate-y-0 group-hover/link:translate-x-0 transition-all" />
-            </a>
-          )}
+          {/* Decorative elements */}
+          <div className="absolute top-8 left-8 w-16 h-16 border-2 border-white/20 rounded-full" />
+          <div className="absolute bottom-8 right-8 w-24 h-24 border-2 border-white/10" style={{ borderRadius: '30% 70% 70% 30% / 30% 30% 70% 70%' }} />
         </div>
       </div>
     </div>
