@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
-import { animate } from 'animejs';
-import { Send, Github, Linkedin, Mail, CheckCircle } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { useToast } from '@/hooks/use-toast';
+import { useEffect, useRef, useState } from "react";
+import { animate } from "animejs";
+import { Send, Github, Linkedin, Mail, CheckCircle } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/hooks/use-toast";
 
 const Contact = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -22,13 +22,13 @@ const Contact = () => {
               translateY: [50, 0],
               opacity: [0, 1],
               duration: 800,
-              ease: 'outExpo',
+              ease: "outExpo",
             });
             observer.disconnect();
           }
         });
       },
-      { threshold: 0.2 }
+      { threshold: 0.2 },
     );
 
     if (sectionRef.current) {
@@ -43,18 +43,18 @@ const Contact = () => {
     setIsSubmitting(true);
 
     // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    await new Promise((resolve) => setTimeout(resolve, 1500));
 
     setIsSubmitting(false);
     setIsSubmitted(true);
 
     // Success animation
     setTimeout(() => {
-      animate('.success-icon', {
+      animate(".success-icon", {
         scale: [0, 1.2, 1],
         opacity: [0, 1],
         duration: 600,
-        ease: 'outBack',
+        ease: "outBack",
       });
     }, 50);
 
@@ -71,17 +71,13 @@ const Contact = () => {
   };
 
   const socialLinks = [
-    { icon: Github, href: 'https://github.com/Rashid0312', label: 'GitHub' },
-    { icon: Linkedin, href: 'https://linkedin.com/in/abdirashiid-sammantar', label: 'LinkedIn' },
-    { icon: Mail, href: 'mailto:contact@abdirashiid.dev', label: 'Email' },
+    { icon: Github, href: "https://github.com/Rashid0312", label: "GitHub" },
+    { icon: Linkedin, href: "https://linkedin.com/in/abdirashiid-sammantar", label: "LinkedIn" },
+    { icon: Mail, href: "mailto:contact@abdirashiidsammatar@gmail.com", label: "Email" },
   ];
 
   return (
-    <section 
-      id="contact" 
-      ref={sectionRef}
-      className="section-padding relative"
-    >
+    <section id="contact" ref={sectionRef} className="section-padding relative">
       <div className="container-width">
         <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
           <span className="gradient-text">Get In Touch</span>
@@ -91,7 +87,7 @@ const Contact = () => {
         </p>
 
         <div className="max-w-xl mx-auto">
-          <form 
+          <form
             ref={formRef}
             onSubmit={handleSubmit}
             className="relative p-8 rounded-2xl bg-card border border-border gradient-border opacity-0"
