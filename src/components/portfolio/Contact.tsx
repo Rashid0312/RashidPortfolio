@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { animate } from 'animejs';
-import { Send, Github, Linkedin, Mail, CheckCircle, ArrowUpRight, Copy, Check } from 'lucide-react';
+import { Send, Github, Linkedin, Mail, CheckCircle, ArrowUpRight, Copy, Check, Calendar, MessageSquare, Globe } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -21,21 +21,13 @@ const Contact = () => {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            animate('.contact-title', {
+            animate('.contact-element', {
               translateY: [60, 0],
               opacity: [0, 1],
               duration: 1000,
+              delay: (el, i) => i * 100,
               easing: 'easeOutExpo',
             });
-
-            animate('.contact-content', {
-              translateY: [60, 0],
-              opacity: [0, 1],
-              duration: 800,
-              delay: 200,
-              easing: 'easeOutExpo',
-            });
-
             observer.disconnect();
           }
         });
@@ -43,29 +35,24 @@ const Contact = () => {
       { threshold: 0.15 }
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
+    if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
   }, []);
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText(email);
     setCopied(true);
-    toast({ title: 'Email copied!', description: email });
+    toast({ title: 'Email copied to clipboard', description: email });
     setTimeout(() => setCopied(false), 2000);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-
     await new Promise((resolve) => setTimeout(resolve, 1500));
-
     setIsSubmitting(false);
     setIsSubmitted(true);
-
+    
     animate('.success-icon', {
       scale: [0, 1.2, 1],
       opacity: [0, 1],
@@ -74,8 +61,8 @@ const Contact = () => {
     });
 
     toast({
-      title: 'Message sent!',
-      description: "Thanks for reaching out. I'll get back to you soon.",
+      title: 'Message sent successfully',
+      description: "Thank you for reaching out. I'll respond within 24 hours.",
     });
 
     setTimeout(() => {
@@ -84,176 +71,227 @@ const Contact = () => {
     }, 3000);
   };
 
-  const socialLinks = [
-    { icon: Github, href: 'https://github.com/Rashid0312', label: 'GitHub' },
-    { icon: Linkedin, href: 'https://linkedin.com/in/abdirashiid-sammantar', label: 'LinkedIn' },
-    { icon: Mail, href: `mailto:${email}`, label: 'Email' },
+  const contactMethods = [
+    {
+      icon: Mail,
+      label: 'Email',
+      value: email,
+      action: handleCopyEmail,
+      actionLabel: copied ? 'Copied!' : 'Copy',
+      actionIcon: copied ? Check : Copy,
+    },
+    {
+      icon: Linkedin,
+      label: 'LinkedIn',
+      value: 'Connect on LinkedIn',
+      href: 'https://linkedin.com/in/abdirashiid-sammantar',
+    },
+    {
+      icon: Github,
+      label: 'GitHub',
+      value: 'View my repositories',
+      href: 'https://github.com/Rashid0312',
+    },
+  ];
+
+  const availabilityInfo = [
+    { icon: Calendar, label: 'Response Time', value: '< 24 hours' },
+    { icon: Globe, label: 'Timezone', value: 'CET (Sweden)' },
+    { icon: MessageSquare, label: 'Preferred', value: 'Email / LinkedIn' },
   ];
 
   return (
     <section id="contact" ref={sectionRef} className="section-padding relative overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 grid-pattern opacity-30" />
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gradient-to-t from-primary/10 via-primary/5 to-transparent rounded-full blur-3xl" />
+      <div className="absolute inset-0 grid-dots" />
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-gradient-to-t from-primary/10 via-secondary/5 to-transparent rounded-full blur-3xl" />
 
       <div className="container-width relative">
         {/* Header */}
-        <div className="contact-title opacity-0 text-center mb-16">
-          <span className="font-mono text-sm text-primary uppercase tracking-widest">Get in touch</span>
-          <h2 className="text-5xl md:text-6xl lg:text-7xl font-display mt-4">
-            Let's <span className="italic text-primary">Talk</span>
+        <div className="contact-element opacity-0 text-center mb-16">
+          <span className="tech-badge border-primary/30 text-primary bg-primary/5 mb-4">
+            Let's Connect
+          </span>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mt-4">
+            Start a <span className="gradient-text">Conversation</span>
           </h2>
-          <p className="text-lg text-muted-foreground mt-6 max-w-xl mx-auto">
-            Have a project in mind or just want to say hi? I'd love to hear from you.
+          <p className="text-lg text-muted-foreground mt-6 max-w-2xl mx-auto">
+            Interested in collaboration, consulting, or discussing engineering challenges? 
+            I'm always open to new opportunities and technical discussions.
           </p>
         </div>
 
-        <div className="contact-content opacity-0 max-w-4xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
-            {/* Quick contact */}
-            <div className="lg:col-span-2 space-y-6">
-              {/* Email card */}
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 max-w-6xl mx-auto">
+          {/* Left - Contact info */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Contact methods */}
+            {contactMethods.map(({ icon: Icon, label, value, action, actionLabel, actionIcon: ActionIcon, href }) => (
               <div
-                onClick={handleCopyEmail}
-                className="bento-card p-6 cursor-pointer group"
+                key={label}
+                className="contact-element opacity-0 glass-card p-5 group cursor-pointer hover:border-primary/50"
+                onClick={action}
               >
-                <div className="flex items-center justify-between mb-4">
-                  <span className="font-mono text-xs text-muted-foreground uppercase tracking-wider">Email</span>
-                  {copied ? (
-                    <Check className="w-4 h-4 text-green-500" />
-                  ) : (
-                    <Copy className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
-                  )}
-                </div>
-                <p className="text-lg font-medium break-all group-hover:text-primary transition-colors">
-                  {email}
-                </p>
-              </div>
-
-              {/* Social links */}
-              <div className="bento-card p-6">
-                <span className="font-mono text-xs text-muted-foreground uppercase tracking-wider block mb-4">
-                  Find me on
-                </span>
-                <div className="flex gap-3">
-                  {socialLinks.map(({ icon: Icon, href, label }) => (
-                    <a
-                      key={label}
-                      href={href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-12 h-12 rounded-xl border-2 border-border flex items-center justify-center hover:border-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 group"
-                      aria-label={label}
-                    >
-                      <Icon className="w-5 h-5" />
-                    </a>
-                  ))}
-                </div>
-              </div>
-
-              {/* Location */}
-              <div className="bento-card p-6 bg-gradient-to-br from-secondary/10 to-transparent">
-                <span className="font-mono text-xs text-muted-foreground uppercase tracking-wider block mb-2">
-                  Based in
-                </span>
-                <p className="text-2xl font-display">Sweden 🇸🇪</p>
-                <p className="text-sm text-muted-foreground">Open to remote opportunities worldwide</p>
-              </div>
-            </div>
-
-            {/* Contact form */}
-            <div className="lg:col-span-3">
-              <form
-                ref={formRef}
-                onSubmit={handleSubmit}
-                className="bento-card p-8"
-              >
-                {isSubmitted ? (
-                  <div className="flex flex-col items-center justify-center py-16">
-                    <CheckCircle className="success-icon w-20 h-20 text-primary mb-6" />
-                    <p className="text-2xl font-display mb-2">Message Sent!</p>
-                    <p className="text-muted-foreground">I'll get back to you soon.</p>
-                  </div>
+                {href ? (
+                  <a href={href} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                        <Icon className="w-5 h-5 text-primary" />
+                      </div>
+                      <div>
+                        <p className="text-sm text-muted-foreground">{label}</p>
+                        <p className="font-medium text-foreground group-hover:text-primary transition-colors">{value}</p>
+                      </div>
+                    </div>
+                    <ArrowUpRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                  </a>
                 ) : (
-                  <div className="space-y-6">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <label htmlFor="name" className="text-sm font-medium">
-                          Name
-                        </label>
-                        <Input
-                          id="name"
-                          name="name"
-                          required
-                          placeholder="Your name"
-                          className="h-12 rounded-xl bg-muted/50 border-border focus:border-primary"
-                        />
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                        <Icon className="w-5 h-5 text-primary" />
                       </div>
-                      <div className="space-y-2">
-                        <label htmlFor="email" className="text-sm font-medium">
-                          Email
-                        </label>
-                        <Input
-                          id="email"
-                          name="email"
-                          type="email"
-                          required
-                          placeholder="your@email.com"
-                          className="h-12 rounded-xl bg-muted/50 border-border focus:border-primary"
-                        />
+                      <div>
+                        <p className="text-sm text-muted-foreground">{label}</p>
+                        <p className="font-medium text-foreground group-hover:text-primary transition-colors break-all">{value}</p>
                       </div>
                     </div>
-
-                    <div className="space-y-2">
-                      <label htmlFor="subject" className="text-sm font-medium">
-                        Subject
-                      </label>
-                      <Input
-                        id="subject"
-                        name="subject"
-                        required
-                        placeholder="What's this about?"
-                        className="h-12 rounded-xl bg-muted/50 border-border focus:border-primary"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <label htmlFor="message" className="text-sm font-medium">
-                        Message
-                      </label>
-                      <Textarea
-                        id="message"
-                        name="message"
-                        required
-                        placeholder="Tell me about your project..."
-                        rows={5}
-                        className="rounded-xl bg-muted/50 border-border focus:border-primary resize-none"
-                      />
-                    </div>
-
-                    <Button
-                      type="submit"
-                      disabled={isSubmitting}
-                      size="lg"
-                      className="w-full h-14 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-base brutal-border"
-                    >
-                      {isSubmitting ? (
-                        <span className="flex items-center gap-3">
-                          <div className="w-5 h-5 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
-                          Sending...
-                        </span>
-                      ) : (
-                        <span className="flex items-center gap-3">
-                          <Send className="w-5 h-5" />
-                          Send Message
-                          <ArrowUpRight className="w-4 h-4" />
-                        </span>
-                      )}
-                    </Button>
+                    {ActionIcon && (
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground group-hover:text-primary transition-colors">
+                        <ActionIcon className="w-4 h-4" />
+                        {actionLabel}
+                      </div>
+                    )}
                   </div>
                 )}
-              </form>
+              </div>
+            ))}
+
+            {/* Availability */}
+            <div className="contact-element opacity-0 glass-card p-5">
+              <h4 className="text-sm font-mono uppercase tracking-wider text-muted-foreground mb-4">
+                Availability
+              </h4>
+              <div className="space-y-3">
+                {availabilityInfo.map(({ icon: Icon, label, value }) => (
+                  <div key={label} className="flex items-center justify-between">
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <Icon className="w-4 h-4" />
+                      {label}
+                    </div>
+                    <span className="text-sm font-medium text-foreground">{value}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-4 pt-4 border-t border-border">
+                <div className="flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
+                  <span className="text-sm text-accent font-medium">Open to opportunities</span>
+                </div>
+              </div>
             </div>
+          </div>
+
+          {/* Right - Contact form */}
+          <div className="lg:col-span-3">
+            <form ref={formRef} onSubmit={handleSubmit} className="contact-element opacity-0 glass-card p-8">
+              {isSubmitted ? (
+                <div className="flex flex-col items-center justify-center py-16">
+                  <CheckCircle className="success-icon w-20 h-20 text-accent mb-6" />
+                  <h3 className="text-2xl font-display font-bold text-foreground mb-2">Message Sent!</h3>
+                  <p className="text-muted-foreground text-center">
+                    Thank you for reaching out. I'll get back to you within 24 hours.
+                  </p>
+                </div>
+              ) : (
+                <div className="space-y-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <label htmlFor="name" className="text-sm font-medium text-foreground">
+                        Name
+                      </label>
+                      <Input
+                        id="name"
+                        name="name"
+                        required
+                        placeholder="Your name"
+                        className="h-12 rounded-xl bg-muted/30 border-border focus:border-primary"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label htmlFor="email" className="text-sm font-medium text-foreground">
+                        Email
+                      </label>
+                      <Input
+                        id="email"
+                        name="email"
+                        type="email"
+                        required
+                        placeholder="you@company.com"
+                        className="h-12 rounded-xl bg-muted/30 border-border focus:border-primary"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label htmlFor="company" className="text-sm font-medium text-foreground">
+                      Company / Organization
+                    </label>
+                    <Input
+                      id="company"
+                      name="company"
+                      placeholder="Your company (optional)"
+                      className="h-12 rounded-xl bg-muted/30 border-border focus:border-primary"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label htmlFor="subject" className="text-sm font-medium text-foreground">
+                      Subject
+                    </label>
+                    <Input
+                      id="subject"
+                      name="subject"
+                      required
+                      placeholder="What's this about?"
+                      className="h-12 rounded-xl bg-muted/30 border-border focus:border-primary"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label htmlFor="message" className="text-sm font-medium text-foreground">
+                      Message
+                    </label>
+                    <Textarea
+                      id="message"
+                      name="message"
+                      required
+                      placeholder="Tell me about your project, challenges, or how I can help..."
+                      rows={5}
+                      className="rounded-xl bg-muted/30 border-border focus:border-primary resize-none"
+                    />
+                  </div>
+
+                  <Button
+                    type="submit"
+                    disabled={isSubmitting}
+                    size="lg"
+                    className="w-full h-14 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-base"
+                  >
+                    {isSubmitting ? (
+                      <span className="flex items-center gap-3">
+                        <div className="w-5 h-5 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
+                        Sending...
+                      </span>
+                    ) : (
+                      <span className="flex items-center gap-3">
+                        <Send className="w-5 h-5" />
+                        Send Message
+                        <ArrowUpRight className="w-4 h-4" />
+                      </span>
+                    )}
+                  </Button>
+                </div>
+              )}
+            </form>
           </div>
         </div>
       </div>
