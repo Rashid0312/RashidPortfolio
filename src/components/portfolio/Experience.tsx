@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { animate, stagger } from 'animejs';
-import { Users, Award, TrendingUp, Calendar, ExternalLink } from 'lucide-react';
+import { Users, Award, TrendingUp, Calendar, ExternalLink, Briefcase, GraduationCap, Trophy } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
 
 const Experience = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -10,7 +11,7 @@ const Experience = () => {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            animate('.exp-title', {
+            animate('.exp-header', {
               translateY: [60, 0],
               opacity: [0, 1],
               duration: 1000,
@@ -25,9 +26,9 @@ const Experience = () => {
               easing: 'easeOutExpo',
             });
 
-            // Animate stat numbers
+            // Animate stats
             setTimeout(() => {
-              document.querySelectorAll('.stat-number').forEach((el) => {
+              document.querySelectorAll('.stat-counter').forEach((el) => {
                 const target = parseInt(el.getAttribute('data-value') || '0');
                 let current = 0;
                 const duration = 2000;
@@ -44,7 +45,7 @@ const Experience = () => {
 
                 requestAnimationFrame(animateNumber);
               });
-            }, 500);
+            }, 600);
 
             observer.disconnect();
           }
@@ -53,116 +54,197 @@ const Experience = () => {
       { threshold: 0.15 }
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
+    if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
   }, []);
 
-  const stats = [
-    { value: 120, label: 'Members', suffix: '+', icon: Users },
-    { value: 4, label: 'Partners', suffix: '', icon: TrendingUp },
-    { value: 280, label: 'Growth', suffix: '%', icon: TrendingUp },
-    { value: 50, label: 'Hackers', suffix: '+', icon: Calendar },
+  const metrics = [
+    { value: 120, label: 'Community Members', suffix: '+', color: 'text-primary' },
+    { value: 280, label: 'Engagement Growth', suffix: '%', color: 'text-accent' },
+    { value: 4, label: 'Industry Partners', suffix: '', color: 'text-secondary' },
+    { value: 50, label: 'Hackathon Participants', suffix: '+', color: 'text-amber' },
   ];
 
   const certifications = [
-    { name: 'AWS Cloud Practitioner', issuer: 'Amazon Web Services', color: 'bg-orange-500' },
-    { name: 'Google IT Automation', issuer: 'Google', color: 'bg-blue-500' },
-    { name: 'Meta Front-End Developer', issuer: 'Meta', color: 'bg-indigo-500' },
+    {
+      name: 'AWS Cloud Practitioner',
+      issuer: 'Amazon Web Services',
+      date: '2024',
+      color: 'bg-orange-500',
+      skills: ['EC2', 'S3', 'Lambda', 'IAM'],
+    },
+    {
+      name: 'Google IT Automation with Python',
+      issuer: 'Google',
+      date: '2024',
+      color: 'bg-blue-500',
+      skills: ['Python', 'Git', 'Automation', 'Troubleshooting'],
+    },
+    {
+      name: 'Meta Front-End Developer',
+      issuer: 'Meta',
+      date: '2024',
+      color: 'bg-indigo-500',
+      skills: ['React', 'JavaScript', 'UX/UI', 'Testing'],
+    },
+  ];
+
+  const achievements = [
+    {
+      icon: Trophy,
+      title: 'Neurawave 2025 Hackathon',
+      description: 'Built Rosetta - ML-powered health prediction platform',
+      color: 'text-amber',
+    },
+    {
+      icon: Users,
+      title: 'LNU AI Society Founding Member',
+      description: 'Grew community from 0 to 120+ members',
+      color: 'text-primary',
+    },
+    {
+      icon: Briefcase,
+      title: 'Communications Lead',
+      description: 'Strategic partnerships with 4 industry leaders',
+      color: 'text-secondary',
+    },
   ];
 
   return (
     <section id="experience" ref={sectionRef} className="section-padding relative overflow-hidden">
-      {/* Background elements */}
-      <div className="absolute top-20 right-10 w-40 h-40 border-2 border-primary/10 rounded-full float" />
-      <div className="absolute bottom-32 left-20 w-24 h-24 bg-accent/10 blob" />
-
+      <div className="absolute inset-0 grid-lines" />
+      <div className="orb w-[400px] h-[400px] bg-accent/20 top-40 -right-40" />
+      
       <div className="container-width relative">
         {/* Header */}
-        <div className="exp-title opacity-0 text-center mb-20">
-          <span className="font-mono text-sm text-primary uppercase tracking-widest">Experience</span>
-          <h2 className="text-5xl md:text-6xl lg:text-7xl font-display mt-4">
-            Building <span className="italic text-primary">Community</span>
+        <div className="exp-header opacity-0 text-center mb-16">
+          <span className="tech-badge border-primary/30 text-primary bg-primary/5 mb-4">
+            Experience & Achievements
+          </span>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mt-4">
+            Leadership & <span className="gradient-text">Impact</span>
           </h2>
+          <p className="text-lg text-muted-foreground mt-6 max-w-2xl mx-auto">
+            Driving community growth and delivering results through technical and strategic initiatives
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* LNU AI Society */}
-          <div className="exp-card opacity-0 bento-card p-8 md:p-10">
-            {/* Header */}
-            <div className="flex items-start gap-4 mb-8">
-              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center flex-shrink-0">
-                <Users className="w-8 h-8 text-primary-foreground" />
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Main experience card */}
+          <div className="lg:col-span-2 space-y-8">
+            <div className="exp-card opacity-0 glass-card p-8">
+              {/* Header */}
+              <div className="flex items-start gap-4 mb-8">
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center flex-shrink-0 glow-primary">
+                  <Users className="w-8 h-8 text-primary-foreground" />
+                </div>
+                <div>
+                  <h3 className="text-2xl font-display font-bold text-foreground">LNU AI Society</h3>
+                  <p className="text-primary font-medium">Communications Lead & Founding Member</p>
+                  <p className="text-sm text-muted-foreground mt-1">2024 - Present • Linnéuniversitetet, Sweden</p>
+                </div>
               </div>
-              <div>
-                <h3 className="text-2xl font-display">LNU AI Society</h3>
-                <p className="text-muted-foreground">Communications Lead & Founder</p>
+
+              {/* Metrics */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                {metrics.map(({ value, label, suffix, color }) => (
+                  <div key={label} className="metric-card !p-4 text-center">
+                    <p className={`text-3xl font-display font-bold ${color}`}>
+                      <span className="stat-counter" data-value={value}>0</span>
+                      {suffix}
+                    </p>
+                    <p className="text-xs text-muted-foreground mt-1">{label}</p>
+                  </div>
+                ))}
+              </div>
+
+              {/* Key achievements */}
+              <div className="space-y-4">
+                <h4 className="text-sm font-mono uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+                  <TrendingUp className="w-4 h-4" />
+                  Key Contributions
+                </h4>
+                <ul className="space-y-3">
+                  {[
+                    'Developed and executed community engagement strategy, resulting in 280% growth',
+                    'Co-organized Neurowave Hackathon with 50+ participants from academia and industry',
+                    'Established partnerships with 4 tech companies for workshops and mentorship',
+                    'Led content creation and communication across multiple platforms',
+                  ].map((item) => (
+                    <li key={item} className="flex items-start gap-3 text-muted-foreground">
+                      <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
 
-            {/* Stats grid */}
-            <div className="grid grid-cols-2 gap-4 mb-8">
-              {stats.map(({ value, label, suffix, icon: Icon }) => (
-                <div key={label} className="p-4 rounded-xl bg-muted/50 relative overflow-hidden group hover:bg-muted transition-colors">
-                  <Icon className="absolute top-3 right-3 w-4 h-4 text-muted-foreground/30" />
-                  <p className="text-3xl font-display text-primary">
-                    <span className="stat-number" data-value={value}>0</span>
-                    {suffix}
-                  </p>
-                  <p className="text-sm text-muted-foreground mt-1">{label}</p>
+            {/* Achievements grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {achievements.map(({ icon: Icon, title, description, color }) => (
+                <div key={title} className="exp-card opacity-0 glass-card p-5 group hover:border-primary/50">
+                  <Icon className={`w-8 h-8 ${color} mb-3`} />
+                  <h4 className="font-semibold text-foreground mb-1 group-hover:text-primary transition-colors">
+                    {title}
+                  </h4>
+                  <p className="text-sm text-muted-foreground">{description}</p>
                 </div>
               ))}
             </div>
-
-            {/* Highlights */}
-            <div className="space-y-3">
-              <div className="flex items-start gap-3">
-                <div className="w-2 h-2 rounded-full bg-primary mt-2" />
-                <p className="text-muted-foreground">Grew community engagement by 280% through strategic initiatives</p>
-              </div>
-              <div className="flex items-start gap-3">
-                <div className="w-2 h-2 rounded-full bg-primary mt-2" />
-                <p className="text-muted-foreground">Co-organized Neurowave Hackathon with 50+ participants</p>
-              </div>
-              <div className="flex items-start gap-3">
-                <div className="w-2 h-2 rounded-full bg-primary mt-2" />
-                <p className="text-muted-foreground">Secured 4 industry partnerships for workshops and events</p>
-              </div>
-            </div>
           </div>
 
-          {/* Certifications */}
+          {/* Right column */}
           <div className="space-y-6">
-            <div className="exp-card opacity-0 flex items-center gap-3 mb-4">
-              <Award className="w-6 h-6 text-primary" />
-              <h3 className="text-2xl font-display">Certifications</h3>
+            {/* Education */}
+            <div className="exp-card opacity-0 glass-card p-6 border-gradient">
+              <div className="flex items-center gap-3 mb-4">
+                <GraduationCap className="w-6 h-6 text-secondary" />
+                <span className="text-sm font-mono uppercase tracking-wider text-muted-foreground">Education</span>
+              </div>
+              <h4 className="text-xl font-display font-bold text-foreground">Linnéuniversitetet</h4>
+              <p className="text-primary font-medium">Computer Science</p>
+              <p className="text-sm text-muted-foreground mt-1">2024 - 2027 • Växjö, Sweden</p>
+              <div className="flex flex-wrap gap-2 mt-4">
+                {['Algorithms', 'Systems', 'AI/ML', 'Databases'].map((tag) => (
+                  <Badge key={tag} variant="secondary" className="rounded-md text-xs bg-muted/50">
+                    {tag}
+                  </Badge>
+                ))}
+              </div>
             </div>
 
-            {certifications.map((cert) => (
-              <div
-                key={cert.name}
-                className="exp-card opacity-0 bento-card p-6 group cursor-pointer"
-              >
-                <div className="flex items-center gap-4">
-                  <div className={`w-3 h-full min-h-[60px] ${cert.color} rounded-full`} />
-                  <div className="flex-1">
-                    <h4 className="text-lg font-display group-hover:text-primary transition-colors">
-                      {cert.name}
-                    </h4>
-                    <p className="text-sm text-muted-foreground">{cert.issuer}</p>
-                  </div>
-                  <ExternalLink className="w-5 h-5 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-                </div>
+            {/* Certifications */}
+            <div className="exp-card opacity-0">
+              <div className="flex items-center gap-3 mb-4">
+                <Award className="w-6 h-6 text-accent" />
+                <span className="text-sm font-mono uppercase tracking-wider text-muted-foreground">Certifications</span>
               </div>
-            ))}
-
-            {/* Education card */}
-            <div className="exp-card opacity-0 bento-card p-6 bg-gradient-to-br from-secondary/10 to-transparent">
-              <span className="font-mono text-xs text-muted-foreground uppercase tracking-wider">Education</span>
-              <h4 className="text-xl font-display mt-2">Linnéuniversitetet</h4>
-              <p className="text-muted-foreground">Computer Science • 2024 - 2027</p>
+              <div className="space-y-4">
+                {certifications.map((cert) => (
+                  <div key={cert.name} className="glass-card p-4 group cursor-pointer hover:border-primary/50">
+                    <div className="flex items-start gap-3">
+                      <div className={`w-2 h-full min-h-[50px] ${cert.color} rounded-full`} />
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-start justify-between gap-2">
+                          <h5 className="font-semibold text-foreground group-hover:text-primary transition-colors text-sm leading-tight">
+                            {cert.name}
+                          </h5>
+                          <ExternalLink className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0" />
+                        </div>
+                        <p className="text-xs text-muted-foreground mt-0.5">{cert.issuer} • {cert.date}</p>
+                        <div className="flex flex-wrap gap-1.5 mt-2">
+                          {cert.skills.map((skill) => (
+                            <span key={skill} className="px-2 py-0.5 rounded text-xs bg-muted/50 text-muted-foreground">
+                              {skill}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
