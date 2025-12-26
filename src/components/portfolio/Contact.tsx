@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { animate } from 'animejs';
-import { Send, Github, Linkedin, Mail, CheckCircle, ArrowUpRight, Copy, Check, Calendar, MessageSquare, Globe } from 'lucide-react';
+import { Send, Github, Linkedin, Mail, CheckCircle, ArrowUpRight, Copy, Check, Calendar, MessageSquare, Globe, Phone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -14,7 +14,7 @@ const Contact = () => {
   const [copied, setCopied] = useState(false);
   const { toast } = useToast();
 
-  const email = 'abdirashiidsammatar@gmail.com';
+  const email = 'AbdirashiidSammatar@gmail.com';
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -96,7 +96,7 @@ const Contact = () => {
 
   const availabilityInfo = [
     { icon: Calendar, label: 'Response Time', value: '< 24 hours' },
-    { icon: Globe, label: 'Timezone', value: 'CET (Sweden)' },
+    { icon: Globe, label: 'Location', value: 'Sweden 🇸🇪' },
     { icon: MessageSquare, label: 'Preferred', value: 'Email / LinkedIn' },
   ];
 
@@ -106,24 +106,21 @@ const Contact = () => {
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-gradient-to-t from-primary/10 via-secondary/5 to-transparent rounded-full blur-3xl" />
 
       <div className="container-width relative">
-        {/* Header */}
         <div className="contact-element opacity-0 text-center mb-16">
           <span className="tech-badge border-primary/30 text-primary bg-primary/5 mb-4">
-            Let's Connect
+            Get In Touch
           </span>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mt-4">
-            Start a <span className="gradient-text">Conversation</span>
+            Let's <span className="gradient-text">Connect</span>
           </h2>
           <p className="text-lg text-muted-foreground mt-6 max-w-2xl mx-auto">
-            Interested in collaboration, consulting, or discussing engineering challenges? 
-            I'm always open to new opportunities and technical discussions.
+            Interested in DevOps, infrastructure, or AI? 
+            I'm always open to discussing new opportunities and technical challenges.
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 max-w-6xl mx-auto">
-          {/* Left - Contact info */}
           <div className="lg:col-span-2 space-y-6">
-            {/* Contact methods */}
             {contactMethods.map(({ icon: Icon, label, value, action, actionLabel, actionIcon: ActionIcon, href }) => (
               <div
                 key={label}
@@ -165,7 +162,6 @@ const Contact = () => {
               </div>
             ))}
 
-            {/* Availability */}
             <div className="contact-element opacity-0 glass-card p-5">
               <h4 className="text-sm font-mono uppercase tracking-wider text-muted-foreground mb-4">
                 Availability
@@ -190,7 +186,6 @@ const Contact = () => {
             </div>
           </div>
 
-          {/* Right - Contact form */}
           <div className="lg:col-span-3">
             <form ref={formRef} onSubmit={handleSubmit} className="contact-element opacity-0 glass-card p-8">
               {isSubmitted ? (
@@ -232,18 +227,6 @@ const Contact = () => {
                   </div>
 
                   <div className="space-y-2">
-                    <label htmlFor="company" className="text-sm font-medium text-foreground">
-                      Company / Organization
-                    </label>
-                    <Input
-                      id="company"
-                      name="company"
-                      placeholder="Your company (optional)"
-                      className="h-12 rounded-xl bg-muted/30 border-border focus:border-primary"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
                     <label htmlFor="subject" className="text-sm font-medium text-foreground">
                       Subject
                     </label>
@@ -251,7 +234,7 @@ const Contact = () => {
                       id="subject"
                       name="subject"
                       required
-                      placeholder="What's this about?"
+                      placeholder="DevOps opportunity / Collaboration / Other"
                       className="h-12 rounded-xl bg-muted/30 border-border focus:border-primary"
                     />
                   </div>
@@ -264,7 +247,7 @@ const Contact = () => {
                       id="message"
                       name="message"
                       required
-                      placeholder="Tell me about your project, challenges, or how I can help..."
+                      placeholder="Tell me about your project, infrastructure challenges, or how I can help..."
                       rows={5}
                       className="rounded-xl bg-muted/30 border-border focus:border-primary resize-none"
                     />

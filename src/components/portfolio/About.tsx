@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { animate, stagger } from 'animejs';
-import { Server, Brain, Cloud, Users, Target, TrendingUp, Shield, Workflow } from 'lucide-react';
+import { Server, Brain, Cloud, Workflow, Target, TrendingUp, Shield, Users, Container, Activity } from 'lucide-react';
 
 const About = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -39,30 +39,30 @@ const About = () => {
 
   const capabilities = [
     {
-      icon: Server,
-      title: 'Infrastructure as Code',
-      description: 'Terraform, Ansible, and Kubernetes for reproducible, version-controlled infrastructure',
+      icon: Container,
+      title: 'DevOps & CI/CD',
+      description: 'Docker, Kubernetes, Jenkins, GitHub Actions, Azure DevOps, Ansible for automated deployments',
       color: 'text-primary',
       bgColor: 'bg-primary/10',
     },
     {
-      icon: Brain,
-      title: 'ML Operations',
-      description: 'End-to-end ML pipelines with automated training, validation, and deployment',
+      icon: Activity,
+      title: 'Observability Stack',
+      description: 'OpenTelemetry, Prometheus, Grafana Loki, Tempo, Distributed Tracing implementation',
       color: 'text-secondary',
       bgColor: 'bg-secondary/10',
     },
     {
       icon: Cloud,
-      title: 'Cloud Architecture',
-      description: 'AWS, Azure & GCP solutions optimized for cost, performance, and reliability',
+      title: 'Cloud Infrastructure',
+      description: 'AWS Cloud, Nginx reverse proxy, SSL automation, multi-tenant architecture design',
       color: 'text-azure',
       bgColor: 'bg-azure/10',
     },
     {
-      icon: Workflow,
-      title: 'CI/CD Automation',
-      description: 'Zero-downtime deployments with comprehensive testing and rollback capabilities',
+      icon: Brain,
+      title: 'AI Integration',
+      description: 'PyTorch, TensorFlow, AI-driven solutions reducing response times by 35%',
       color: 'text-accent',
       bgColor: 'bg-accent/10',
     },
@@ -71,36 +71,34 @@ const About = () => {
   const valueProps = [
     {
       icon: Target,
-      value: 'Business-Driven',
-      description: 'Engineering decisions aligned with ROI and strategic objectives',
+      value: 'Solution-Oriented',
+      description: 'Focus on measurable results and business impact',
     },
     {
       icon: TrendingUp,
-      value: 'Data-Informed',
-      description: 'Metrics-based optimization and evidence-based improvements',
+      value: 'Data-Driven',
+      description: 'Metrics-based optimization with 2.1x throughput improvements',
     },
     {
       icon: Shield,
       value: 'Security-First',
-      description: 'Zero-trust architecture and compliance-ready infrastructure',
+      description: 'JWT auth, API-key validation, data isolation patterns',
     },
     {
       icon: Users,
-      value: 'Collaborative',
-      description: 'Cross-functional leadership and stakeholder communication',
+      value: 'Team Player',
+      description: 'Cross-functional collaboration in agile environments',
     },
   ];
 
   return (
     <section id="about" ref={sectionRef} className="section-padding relative overflow-hidden">
-      {/* Background elements */}
       <div className="absolute inset-0 grid-dots" />
       <div className="orb w-[500px] h-[500px] bg-primary/30 -top-60 -left-60" />
       <div className="orb w-[400px] h-[400px] bg-secondary/20 bottom-0 right-0" />
 
       <div className="container-width relative">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-          {/* Left - Content */}
           <div className="space-y-8">
             <div className="about-element opacity-0">
               <span className="tech-badge border-primary/30 text-primary bg-primary/5">
@@ -109,26 +107,27 @@ const About = () => {
             </div>
 
             <h2 className="about-element opacity-0 text-4xl md:text-5xl font-display font-bold leading-tight">
-              Engineering <span className="gradient-text">Excellence</span> for
-              <br />Modern Enterprises
+              DevOps-First <span className="gradient-text">Engineering</span>
+              <br />for Modern Systems
             </h2>
 
             <div className="about-element opacity-0 space-y-4 text-lg text-muted-foreground leading-relaxed">
               <p>
-                As a Computer Science student at <span className="text-foreground font-medium">Linnéuniversitetet</span>, 
-                I bridge the gap between cutting-edge technology and business value. My focus areas span 
-                <span className="text-primary font-medium"> DevOps practices</span>, 
-                <span className="text-secondary font-medium"> machine learning engineering</span>, and 
-                <span className="text-accent font-medium"> cloud infrastructure design</span>.
+                Computer Science student at <span className="text-foreground font-medium">Linnéuniversitetet</span> (2024-2027), 
+                focusing on System Development, Agile methodologies, Algorithms, and Security.
+              </p>
+              <p>
+                Currently working as <span className="text-primary font-medium">AI Research Intern at EmentraAI</span>, 
+                where I integrate AI-driven solutions with DevOps practices, achieving{' '}
+                <span className="text-accent font-medium">35% faster response times</span> and{' '}
+                <span className="text-accent font-medium">2.1x throughput improvements</span>.
               </p>
               <p>
                 As founding member and Communications Lead of the <span className="text-foreground font-medium">LNU AI Society</span>, 
-                I've cultivated a community of 120+ members, organized hackathons, and established partnerships 
-                with industry leaders — demonstrating both technical and leadership capabilities.
+                I grew our community to <span className="text-foreground font-medium">120+ members</span> and secured 4 industry partnerships.
               </p>
             </div>
 
-            {/* Value propositions */}
             <div className="about-element opacity-0 grid grid-cols-2 gap-4">
               {valueProps.map(({ icon: Icon, value, description }) => (
                 <div key={value} className="group">
@@ -142,7 +141,6 @@ const About = () => {
             </div>
           </div>
 
-          {/* Right - Capabilities */}
           <div className="space-y-4">
             {capabilities.map(({ icon: Icon, title, description, color, bgColor }) => (
               <div key={title} className="capability-card opacity-0 glass-card card-shine p-6 group cursor-default">
@@ -162,15 +160,17 @@ const About = () => {
               </div>
             ))}
 
-            {/* Education card */}
             <div className="capability-card opacity-0 glass-card p-6 border-gradient">
               <div className="relative">
                 <span className="tech-badge border-secondary/30 text-secondary bg-secondary/5 mb-4">
                   Education
                 </span>
                 <h3 className="text-xl font-display font-semibold text-foreground">Linnéuniversitetet</h3>
-                <p className="text-muted-foreground">Computer Science • 2024 - 2027</p>
-                <p className="text-sm text-muted-foreground mt-2">Växjö, Sweden</p>
+                <p className="text-primary font-medium">BSc Computer Science – Software Engineering</p>
+                <p className="text-sm text-muted-foreground mt-1">Aug 2024 - July 2027 • Växjö, Sweden</p>
+                <p className="text-sm text-muted-foreground mt-2">
+                  Focus: System Development, Agile Methods, Algorithms, Security
+                </p>
               </div>
             </div>
           </div>
