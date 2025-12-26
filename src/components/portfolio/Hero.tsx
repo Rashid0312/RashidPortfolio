@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { animate, stagger } from 'animejs';
-import { Github, Linkedin, Mail, ArrowRight, Terminal, Zap, Cloud, Brain, ChevronDown } from 'lucide-react';
+import { Github, Linkedin, Mail, ArrowRight, Terminal, Zap, Cloud, Brain, ChevronDown, Server, Container } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const Hero = () => {
@@ -10,14 +10,13 @@ const Hero = () => {
 
   const roles = [
     'DevOps Engineer',
-    'ML Engineer',
-    'Cloud Architect',
+    'AI Research Intern',
     'Platform Engineer',
-    'AI Solutions Developer',
+    'Cloud Infrastructure Specialist',
+    'Full-Stack Developer',
   ];
 
   useEffect(() => {
-    // Staggered reveal animation
     animate('.hero-element', {
       translateY: [60, 0],
       opacity: [0, 1],
@@ -43,7 +42,6 @@ const Hero = () => {
     });
   }, []);
 
-  // Typing effect
   useEffect(() => {
     const role = roles[currentRole];
     let charIndex = 0;
@@ -78,10 +76,10 @@ const Hero = () => {
   }, [currentRole]);
 
   const metrics = [
-    { value: '99.9%', label: 'Uptime SLA', icon: Zap },
-    { value: '40%', label: 'Cost Reduction', icon: Cloud },
-    { value: '10x', label: 'Deploy Speed', icon: Terminal },
-    { value: '95%', label: 'Model Accuracy', icon: Brain },
+    { value: '35%', label: 'Response Time ↓', icon: Zap },
+    { value: '2.1x', label: 'Throughput ↑', icon: Server },
+    { value: '<2s', label: 'Deploy Time', icon: Container },
+    { value: '280%', label: 'Growth Driven', icon: Brain },
   ];
 
   const socialLinks = [
@@ -92,30 +90,24 @@ const Hero = () => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background orbs */}
       <div className="orb w-[600px] h-[600px] bg-primary -top-40 -right-40" />
       <div className="orb w-[500px] h-[500px] bg-secondary bottom-20 -left-40" style={{ animationDelay: '-5s' }} />
       <div className="orb w-[400px] h-[400px] bg-accent top-1/2 left-1/3" style={{ animationDelay: '-10s' }} />
 
       <div className="container-width relative z-10 pt-20">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          {/* Left content */}
           <div className="lg:col-span-7 space-y-8">
-            {/* Status badge */}
             <div className="hero-element opacity-0">
               <span className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-accent/10 border border-accent/30 text-accent text-sm font-medium">
                 <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
-                Available for Enterprise Opportunities
+                AI Research Intern @ EmentraAI
               </span>
             </div>
 
-            {/* Main heading */}
             <div className="space-y-4">
               <h1 className="hero-element opacity-0 text-5xl sm:text-6xl md:text-7xl font-display font-bold tracking-tight leading-[1.1]">
-                Building{' '}
-                <span className="gradient-text">Scalable</span>
-                <br />
-                Infrastructure
+                Abdirashiid{' '}
+                <span className="gradient-text">Sammantar</span>
               </h1>
               
               <div className="hero-element opacity-0 flex items-center gap-3 text-2xl md:text-3xl text-muted-foreground font-mono">
@@ -125,16 +117,14 @@ const Hero = () => {
               </div>
             </div>
 
-            {/* Description */}
             <p className="hero-element opacity-0 text-lg text-muted-foreground max-w-xl leading-relaxed">
-              Software Engineering student specializing in{' '}
+              Computer Science student at Linnéuniversitetet specializing in{' '}
               <span className="text-foreground font-medium">DevOps automation</span>,{' '}
-              <span className="text-foreground font-medium">ML pipelines</span>, and{' '}
-              <span className="text-foreground font-medium">cloud-native architectures</span>. 
-              Delivering measurable business impact through engineering excellence.
+              <span className="text-foreground font-medium">CI/CD pipelines</span>, and{' '}
+              <span className="text-foreground font-medium">cloud-native infrastructure</span>. 
+              Currently building AI-driven solutions with measurable business impact.
             </p>
 
-            {/* CTA Buttons */}
             <div className="hero-element opacity-0 flex flex-wrap gap-4">
               <Button 
                 size="lg" 
@@ -142,7 +132,7 @@ const Hero = () => {
                 asChild
               >
                 <a href="#projects">
-                  View Case Studies
+                  View Projects
                   <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </a>
               </Button>
@@ -152,11 +142,10 @@ const Hero = () => {
                 className="border-border hover:bg-muted font-semibold px-8"
                 asChild
               >
-                <a href="#contact">Schedule Consultation</a>
+                <a href="#contact">Get In Touch</a>
               </Button>
             </div>
 
-            {/* Social links */}
             <div className="hero-element opacity-0 flex items-center gap-4">
               {socialLinks.map(({ icon: Icon, href, label }) => (
                 <a
@@ -170,12 +159,11 @@ const Hero = () => {
                   <Icon className="w-5 h-5" />
                 </a>
               ))}
+              <span className="text-sm text-muted-foreground ml-2">Växjö / Göteborg, Sweden 🇸🇪</span>
             </div>
           </div>
 
-          {/* Right - Metrics & Terminal */}
           <div className="lg:col-span-5 space-y-6">
-            {/* Metrics grid */}
             <div className="grid grid-cols-2 gap-4">
               {metrics.map(({ value, label, icon: Icon }) => (
                 <div key={label} className="hero-metric opacity-0 metric-card group">
@@ -190,31 +178,29 @@ const Hero = () => {
               ))}
             </div>
 
-            {/* Terminal preview */}
             <div className="hero-terminal opacity-0 terminal">
               <div className="terminal-header">
                 <div className="terminal-dot bg-rose" />
                 <div className="terminal-dot bg-amber" />
                 <div className="terminal-dot bg-accent" />
-                <span className="ml-3 text-xs text-muted-foreground">deployment.sh</span>
+                <span className="ml-3 text-xs text-muted-foreground">devops-pipeline.sh</span>
               </div>
               <div className="p-4 space-y-2 text-sm">
                 <div className="command-line text-muted-foreground">
-                  <span className="text-foreground">kubectl apply -f deployment.yaml</span>
+                  <span className="text-foreground">kubectl apply -f k8s/</span>
                 </div>
-                <p className="text-accent pl-5">✓ deployment.apps/ml-pipeline created</p>
-                <p className="text-accent pl-5">✓ service/ml-api created</p>
-                <p className="text-accent pl-5">✓ horizontalpodautoscaler created</p>
+                <p className="text-accent pl-5">✓ deployment/skyview-api configured</p>
+                <p className="text-accent pl-5">✓ service/observability-stack created</p>
+                <p className="text-accent pl-5">✓ ingress/nginx-ssl configured</p>
                 <div className="command-line text-muted-foreground mt-4">
-                  <span className="text-foreground">docker push registry/model:v2.1</span>
+                  <span className="text-foreground">docker compose up -d</span>
                 </div>
-                <p className="text-primary pl-5">→ Pushing to container registry...</p>
+                <p className="text-primary pl-5">→ Starting Prometheus, Grafana, Loki...</p>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Scroll indicator */}
         <div className="hero-element opacity-0 absolute bottom-10 left-1/2 -translate-x-1/2">
           <button 
             onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
