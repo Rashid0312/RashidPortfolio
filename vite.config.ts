@@ -6,7 +6,7 @@ import { componentTagger } from "lovable-tagger";
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
   // IMPORTANT: Change this to your GitHub repo name
-  base: "/anime-portfolio-studio/",
+  base: "/RashidPortfolio/",
   server: {
     host: "::",
     port: 8080,
