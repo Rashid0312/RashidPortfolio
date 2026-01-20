@@ -24,7 +24,7 @@ const Navigation = () => {
       const sections = navItems.map(item => item.href.slice(1) || 'hero');
       for (const section of [...sections].reverse()) {
         const element = document.getElementById(section === 'hero' ? '' : section) ||
-                        (section === 'hero' ? document.body : null);
+          (section === 'hero' ? document.body : null);
         if (element) {
           const rect = element.getBoundingClientRect();
           if (rect.top <= 150) {
@@ -109,7 +109,7 @@ const Navigation = () => {
                 className="text-muted-foreground hover:text-foreground"
                 asChild
               >
-                <a href="#contact">
+                <a href="/RashidPortfolio/resume.pdf" target="_blank" rel="noopener noreferrer">
                   <FileText className="w-4 h-4 mr-2" />
                   Resume
                 </a>
@@ -168,7 +168,7 @@ const Navigation = () => {
               className="w-full rounded-xl border-border"
               asChild
             >
-              <a href="#contact" onClick={() => setIsMobileMenuOpen(false)}>
+              <a href="/RashidPortfolio/resume.pdf" target="_blank" rel="noopener noreferrer" onClick={() => setIsMobileMenuOpen(false)}>
                 <FileText className="w-4 h-4 mr-2" />
                 Download Resume
               </a>

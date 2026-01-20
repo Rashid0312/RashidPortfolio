@@ -49,26 +49,67 @@ const Contact = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-    
-    animate('.success-icon', {
-      scale: [0, 1.2, 1],
-      opacity: [0, 1],
-      duration: 600,
-      easing: 'easeOutBack',
-    });
 
-    toast({
-      title: 'Message sent successfully',
-      description: "Thank you for reaching out. I'll respond within 24 hours.",
-    });
+    // Formspree Integration
+    // TODO: User must replace this with their own Formspree ID
+    // 1. Go to https://formspree.io/
+    // 2. Create a new form
+    // 3. Copy the form ID (e.g. "mqkrz...") and paste it below
+    const FORMSPREE_ID = "YOUR_FORMSPREE_ID_HERE";
 
-    setTimeout(() => {
-      setIsSubmitted(false);
-      formRef.current?.reset();
-    }, 3000);
+    try {
+      const formData = new FormData(e.target as HTMLFormElement);
+      const data = Object.fromEntries(formData.entries());
+
+      const response = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to send message');
+      }
+
+      // Success
+      setIsSubmitting(false);
+      setIsSubmitted(true);
+
+      animate('.success-icon', {
+        scale: [0, 1.2, 1],
+        opacity: [0, 1],
+        duration: 600,
+        easing: 'easeOutBack',
+      });
+
+      toast({
+        title: 'Message sent successfully',
+        description: "Thank you for reaching out. I'll respond within 24 hours.",
+      });
+
+      setTimeout(() => {
+        setIsSubmitted(false);
+        formRef.current?.reset();
+      }, 3000);
+
+    } catch (error) {
+      console.error("Form error:", error);
+      setIsSubmitting(false);
+      toast({
+        title: 'Error sending message',
+        description: "Please try again or email me directly.",
+        variant: 'destructive',
+      });
+
+      // Fallback to mailto if Formspree fails (or ID is invalid)
+      // const mailtoUrl = `mailto:AbdirashiidSammatar@gmail.com?subject=${encodeURIComponent(formData.get('subject') as string)}&body=...`;
+      // window.location.href = mailtoUrl;
+    }
+
+    // Cleanup animation or state handled in the success block above if fetch succeeds
   };
 
   const contactMethods = [
@@ -114,7 +155,7 @@ const Contact = () => {
             Let's <span className="gradient-text">Connect</span>
           </h2>
           <p className="text-lg text-muted-foreground mt-6 max-w-2xl mx-auto">
-            Interested in DevOps, infrastructure, or AI? 
+            Interested in DevOps, infrastructure, or AI?
             I'm always open to discussing new opportunities and technical challenges.
           </p>
         </div>

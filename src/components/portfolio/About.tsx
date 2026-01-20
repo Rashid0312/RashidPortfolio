@@ -107,24 +107,25 @@ const About = () => {
             </div>
 
             <h2 className="about-element opacity-0 text-4xl md:text-5xl font-display font-bold leading-tight">
-              DevOps-First <span className="gradient-text">Engineering</span>
+              Full Cycle <span className="gradient-text">Developer</span>
               <br />for Modern Systems
             </h2>
 
             <div className="about-element opacity-0 space-y-4 text-lg text-muted-foreground leading-relaxed">
               <p>
-                Computer Science student at <span className="text-foreground font-medium">Linnéuniversitetet</span> (2024-2027), 
+                Computer Science student at <span className="text-foreground font-medium">Linnéuniversitetet</span> (2024-2027),
                 focusing on System Development, Agile methodologies, Algorithms, and Security.
               </p>
               <p>
-                Currently working as <span className="text-primary font-medium">AI Research Intern at EmentraAI</span>, 
-                where I integrate AI-driven solutions with DevOps practices, achieving{' '}
-                <span className="text-accent font-medium">35% faster response times</span> and{' '}
-                <span className="text-accent font-medium">2.1x throughput improvements</span>.
+                As founding member and Communications Lead of the <span className="text-foreground font-medium">LNU AI Society</span>,
+                I grew our community to <span className="text-accent font-medium">120+ members</span> and secured 4 industry partnerships.
               </p>
               <p>
-                As founding member and Communications Lead of the <span className="text-foreground font-medium">LNU AI Society</span>, 
-                I grew our community to <span className="text-foreground font-medium">120+ members</span> and secured 4 industry partnerships.
+                Currently working as <span className="text-primary font-medium">AI Research Intern at EmentraAI</span>,
+                where I integrate AI-driven solutions with DevOps practices, achieving faster response times and reliable throughput.
+              </p>
+              <p>
+                Beyond code, I channel my creativity into <span className="text-foreground font-medium">drawing</span> and stay grounded through my love for <span className="text-foreground font-medium">nature and sports</span>. I believe the discipline of an athlete and the detail-oriented mindset of an artist are essential to building exceptional software.
               </p>
             </div>
 
