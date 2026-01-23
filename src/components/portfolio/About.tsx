@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { animate, stagger } from 'animejs';
-import { Server, Brain, Cloud, Workflow, Target, TrendingUp, Shield, Users, Container, Activity } from 'lucide-react';
+import { Cloud, Target, TrendingUp, Shield, Users, Container, Activity } from 'lucide-react';
 
 const About = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -60,9 +60,9 @@ const About = () => {
       bgColor: 'bg-azure/10',
     },
     {
-      icon: Brain,
-      title: 'AI Integration',
-      description: 'PyTorch, TensorFlow, AI-driven solutions reducing response times by 35%',
+      icon: Users,
+      title: 'Startup Engineering',
+      description: 'Building ObseraCloud from zero to production, handling full-stack dev, marketing, and customer acquisition',
       color: 'text-accent',
       bgColor: 'bg-accent/10',
     },
@@ -117,13 +117,10 @@ const About = () => {
                 focusing on System Development, Agile methodologies, Algorithms, and Security.
               </p>
               <p>
-                As founding member and Communications Lead of the <span className="text-foreground font-medium">LNU AI Society</span>,
-                I grew our community to <span className="text-accent font-medium">120+ members</span> and secured 4 industry partnerships.
+                Currently building <span className="text-foreground font-medium">ObseraCloud</span>, a SaaS startup delivering enterprise-grade observability for scale-ups.
+                I focus on solving real infrastructure challenges with <span className="text-secondary font-medium">production-ready code</span> and scalable architecture.
               </p>
-              <p>
-                Currently working as <span className="text-primary font-medium">AI Research Intern at EmentraAI</span>,
-                where I integrate AI-driven solutions with DevOps practices, achieving faster response times and reliable throughput.
-              </p>
+
               <p>
                 Beyond code, I channel my creativity into <span className="text-foreground font-medium">drawing</span> and stay grounded through my love for <span className="text-foreground font-medium">nature and sports</span>. I believe the discipline of an athlete and the detail-oriented mindset of an artist are essential to building exceptional software.
               </p>

@@ -10,7 +10,7 @@ const Hero = () => {
 
   const roles = [
     'DevOps Engineer',
-    'AI Research Intern',
+
     'Platform Engineer',
     'Cloud Infrastructure Specialist',
     'Full-Stack Developer',
@@ -97,19 +97,14 @@ const Hero = () => {
       <div className="container-width relative z-10 pt-20">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-7 space-y-8">
-            <div className="hero-element opacity-0">
-              <span className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-accent/10 border border-accent/30 text-accent text-sm font-medium">
-                <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
-                AI Research Intern @ EmentraAI
-              </span>
-            </div>
+
 
             <div className="space-y-4">
               <h1 className="hero-element opacity-0 text-5xl sm:text-6xl md:text-7xl font-display font-bold tracking-tight leading-[1.1]">
                 Abdirashiid{' '}
                 <span className="gradient-text">Sammantar</span>
               </h1>
-              
+
               <div className="hero-element opacity-0 flex items-center gap-3 text-2xl md:text-3xl text-muted-foreground font-mono">
                 <span className="text-primary">$</span>
                 <span className="text-foreground">{displayText}</span>
@@ -121,13 +116,13 @@ const Hero = () => {
               Computer Science student at Linnéuniversitetet specializing in{' '}
               <span className="text-foreground font-medium">DevOps automation</span>,{' '}
               <span className="text-foreground font-medium">CI/CD pipelines</span>, and{' '}
-              <span className="text-foreground font-medium">cloud-native infrastructure</span>. 
+              <span className="text-foreground font-medium">cloud-native infrastructure</span>.
               Currently building AI-driven solutions with measurable business impact.
             </p>
 
             <div className="hero-element opacity-0 flex flex-wrap gap-4">
-              <Button 
-                size="lg" 
+              <Button
+                size="lg"
                 className="group bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-8"
                 asChild
               >
@@ -136,9 +131,9 @@ const Hero = () => {
                   <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </a>
               </Button>
-              <Button 
-                size="lg" 
-                variant="outline" 
+              <Button
+                size="lg"
+                variant="outline"
                 className="border-border hover:bg-muted font-semibold px-8"
                 asChild
               >
@@ -202,7 +197,7 @@ const Hero = () => {
         </div>
 
         <div className="hero-element opacity-0 absolute bottom-10 left-1/2 -translate-x-1/2">
-          <button 
+          <button
             onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
             className="flex flex-col items-center gap-2 text-muted-foreground hover:text-foreground transition-colors group"
           >

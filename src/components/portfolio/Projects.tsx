@@ -17,7 +17,6 @@ interface Project {
   metrics: { label: string; value: string }[];
   icon: React.ElementType;
   category: string;
-  category: string;
   github?: string;
   website?: string;
   gradient: string;
@@ -28,12 +27,12 @@ interface Project {
 const projects: Project[] = [
   {
     title: 'ObseraCloud',
-    subtitle: 'Multi-Tenant Observability Startup',
-    description: 'Production-ready SaaS platform for logs, metrics, and traces with complete data isolation. Built enterprise-grade infrastructure with automated SSL and reverse proxy configuration.',
+    subtitle: 'Startup in Progress – Observability SaaS Platform',
+    description: 'Building a production-ready SaaS platform delivering unified observability for logs, metrics, and traces. Designed for startups and scale-ups who need enterprise-grade monitoring without enterprise complexity. Currently in active development with paying pilot customers on the horizon.',
     businessImpact: [
-      'Multi-tenant architecture with complete data isolation',
-      'JWT + API-key authentication system',
-      'Production-ready infrastructure deployment',
+      'Startup venture targeting B2B observability market',
+      'Multi-tenant architecture with complete data isolation per customer',
+      'Go-to-market strategy focused on developer experience',
     ],
     keyFeatures: [
       'Docker containerization with compose orchestration',
@@ -43,12 +42,12 @@ const projects: Project[] = [
     ],
     techStack: ['React', 'Flask', 'Go', 'PostgreSQL', 'Docker', 'Nginx', 'OpenTelemetry', 'Grafana', 'Prometheus', 'Loki', 'Tempo'],
     metrics: [
-      { label: 'Data Isolation', value: '100%' },
+      { label: 'Status', value: 'Beta' },
       { label: 'Auth Methods', value: '2' },
       { label: 'Observability', value: 'Full' },
     ],
     icon: Activity,
-    category: 'DevOps / Observability',
+    category: 'Startup / Observability',
     website: 'https://obseracloud.com/',
     gradient: 'from-cyan-500/20 via-blue-500/10 to-transparent',
     accentColor: 'text-cyan-400',

@@ -1,7 +1,8 @@
 import { useEffect, useRef } from 'react';
 import { animate, stagger } from 'animejs';
-import { Users, Award, TrendingUp, Calendar, ExternalLink, Briefcase, GraduationCap, Trophy, Brain, Zap } from 'lucide-react';
+import { Users, Award, TrendingUp, Calendar, ExternalLink, Briefcase, GraduationCap, Trophy, Brain, Zap, Activity } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import ObseraCloudLogo from '@/assets/projects/ObseraCloudLogo.png';
 
 const Experience = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -99,6 +100,51 @@ const Experience = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main experience column */}
           <div className="lg:col-span-2 space-y-6">
+            {/* ObseraCloud Startup */}
+            <div className="exp-card opacity-0 glass-card p-8">
+              <div className="flex items-start gap-4 mb-6">
+                <div className="w-14 h-14 rounded-2xl bg-black flex items-center justify-center flex-shrink-0 overflow-hidden border border-cyan-500/20">
+                  <img src={ObseraCloudLogo} alt="ObseraCloud Logo" className="w-full h-full object-cover" />
+                </div>
+                <div>
+                  <h3 className="text-2xl font-display font-bold text-foreground">ObseraCloud</h3>
+                  <p className="text-cyan-500 font-medium">Founder & Lead Engineer</p>
+                  <p className="text-sm text-muted-foreground mt-1">Jan 2024 - Present</p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                {[
+                  { value: 99, label: 'Uptime', suffix: '%', color: 'text-green-500' },
+                  { value: 350, label: 'Commits', suffix: '+', color: 'text-blue-500' },
+                  { value: 45, label: 'Beta Users', suffix: '+', color: 'text-purple-500' },
+                  { value: 2, label: 'Pilots', suffix: '', color: 'text-orange-500' },
+                ].map(({ value, label, suffix, color }) => (
+                  <div key={label} className="metric-card !p-3 text-center">
+                    <p className={`text-2xl font-display font-bold ${color}`}>
+                      <span className="stat-counter" data-value={value}>0</span>
+                      {suffix}
+                    </p>
+                    <p className="text-xs text-muted-foreground">{label}</p>
+                  </div>
+                ))}
+              </div>
+
+              <ul className="space-y-3">
+                {[
+                  'Architecting a multi-tenant observability platform processing 50k+ logs/min',
+                  'Built custom OpenTelemetry ingestion pipeline reducing data lag by 40%',
+                  'Secured 2 paid pilot programs with local tech startups for beta testing',
+                  'Leading all technical decisions, product roadmap, and go-to-market strategy',
+                ].map((item) => (
+                  <li key={item} className="flex items-start gap-3 text-muted-foreground text-sm">
+                    <TrendingUp className="w-4 h-4 text-cyan-500 mt-0.5 flex-shrink-0" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
             {/* LNU AI Society */}
             <div className="exp-card opacity-0 glass-card p-8">
               <div className="flex items-start gap-4 mb-6">
@@ -144,50 +190,7 @@ const Experience = () => {
               </ul>
             </div>
 
-            {/* EmentraAI */}
-            <div className="exp-card opacity-0 glass-card p-8">
-              <div className="flex items-start gap-4 mb-6">
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center flex-shrink-0 glow-primary">
-                  <Brain className="w-7 h-7 text-primary-foreground" />
-                </div>
-                <div>
-                  <h3 className="text-2xl font-display font-bold text-foreground">EmentraAI</h3>
-                  <p className="text-primary font-medium">AI Research Intern</p>
-                  <p className="text-sm text-muted-foreground mt-1">Oct 2025 - Present</p>
-                </div>
-              </div>
 
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                {[
-                  { value: 35, label: 'Response Time ↓', suffix: '%', color: 'text-accent' },
-                  { value: 2, label: 'Throughput ↑', suffix: '.1x', color: 'text-primary' },
-                  { value: 100, label: 'DevOps CI/CD', suffix: '%', color: 'text-secondary' },
-                  { value: 1, label: 'Agile Team', suffix: '', color: 'text-amber' },
-                ].map(({ value, label, suffix, color }) => (
-                  <div key={label} className="metric-card !p-3 text-center">
-                    <p className={`text-2xl font-display font-bold ${color}`}>
-                      <span className="stat-counter" data-value={value}>0</span>
-                      {suffix}
-                    </p>
-                    <p className="text-xs text-muted-foreground">{label}</p>
-                  </div>
-                ))}
-              </div>
-
-              <ul className="space-y-3">
-                {[
-                  'Integrated AI-driven solutions in System Development, reducing response time by 35%',
-                  'Collaborated in agile team using DevOps methodology, CI/CD pipelines and automation tools',
-                  'Developed backend solutions with optimization focus, improving throughput by 2.1x',
-                  'Demonstrated solution-oriented approach and strong teamwork in fast-paced environment',
-                ].map((item) => (
-                  <li key={item} className="flex items-start gap-3 text-muted-foreground text-sm">
-                    <Zap className="w-4 h-4 text-accent mt-0.5 flex-shrink-0" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
           </div>
 
           {/* Right column */}
